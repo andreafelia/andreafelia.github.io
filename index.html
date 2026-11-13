@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andrea Ratu Felia Data Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a night-sky lab bench. Deep blue gradient with a faint measurement grid,
+   frosted-glass panels, and magnifying glasses as the recurring object: the sections are
+   lenses, my photo sits in one, and figures get a real loupe on hover. Single dark theme by choice. */
+:root {
+  color-scheme: dark;
+  --ink: #ffffff; --navy: #070c4f; --muted: #c9d5ff; --line: rgba(255,255,255,.2);
+  --glass: rgba(255,255,255,.085); --glass2: rgba(255,255,255,.14);
+  --pink: #ffb7dc; --teal: #86f3e3; --butter: #ffe694; --sky: #a9c8ff;
+  --font: "Plus Jakarta Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --script: "Instrument Serif", "Playfair Display", Georgia, "Times New Roman", serif;
+  --mono: "DM Mono", "SFMono-Regular", Consolas, monospace;
+  --r: 22px;
+}
+* { box-sizing: border-box; }
+button, summary, input { color: var(--ink); }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; background: #070c4f; }
+body { margin: 0; color: var(--ink); font-family: var(--font); font-size: 16.5px; line-height: 1.62;
+  background:
+    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px) 0 0 / 44px 44px,
+    radial-gradient(900px 500px at 85% -5%, rgba(120,150,255,.35), transparent 70%),
+    linear-gradient(180deg, #050a45 0%, #0a17a0 38%, #1530c4 70%, #2748cf 100%);
+  background-attachment: fixed; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { text-wrap: balance; letter-spacing: -.02em; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+.label { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+[hidden] { display: none !important; }
+.panel, .kpi, .tab, section.case, .mcard, .xp li, .skills div, .game, .contact, .stat {
+  background: var(--glass); border: 1px solid var(--line); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 18px 40px rgba(3,6,50,.28); }
+
+/* nav: white text, as asked */
+.dock { position: sticky; top: 12px; z-index: 20; display: flex; justify-content: center; padding: 12px 12px 0; pointer-events: none; }
+.dock nav { pointer-events: auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; background: rgba(6,10,70,.62); border: 1px solid var(--line); border-radius: 999px; padding: 6px; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.dock a { color: #fff; text-decoration: none; font-weight: 600; font-size: 14.5px; padding: 8px 16px; border-radius: 999px; transition: background .15s; }
+.dock a:hover { background: rgba(255,255,255,.18); }
+.btn { display: inline-flex; align-items: center; gap: 10px; border: 0; cursor: pointer; font: inherit; font-weight: 700; text-decoration: none; background: #fff; color: var(--navy); padding: 12px 22px; border-radius: 999px; transition: transform .15s, box-shadow .15s; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 0 26px rgba(255,255,255,.45); }
+.btn.ghost { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px #fff; }
+.btn .arr { transition: transform .15s; } .btn:hover .arr { transform: translateX(4px); }
+
+/* hero */
+.hero { position: relative; text-align: center; padding: 46px 0 40px; display: flex; flex-direction: column; align-items: center; }
+.hello { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: var(--glass); border-radius: 999px; padding: 6px 14px; font-weight: 600; font-size: 14px; }
+.hello i { width: 9px; height: 9px; border-radius: 50%; background: #7dfc9a; box-shadow: 0 0 10px #7dfc9a; display: inline-block; }
+.eyebrow { margin: 22px 0 0; font-size: 14px; letter-spacing: .08em; color: var(--muted); }
+.hero h1 { margin: 4px 0 6px; font-weight: 400; line-height: .95; }
+.hero h1 .script { font-family: var(--script); font-style: italic; font-size: clamp(64px, 12.5vw, 150px); letter-spacing: -.02em; color: #fff;
+  text-shadow: 0 0 18px rgba(170,200,255,.95), 0 0 60px rgba(120,160,255,.7); }
+.hero h1 .yr { font-family: var(--script); font-style: italic; font-size: clamp(30px, 5vw, 58px); color: var(--pink); vertical-align: top; text-shadow: 0 0 18px rgba(255,150,210,.6); }
+.hero p.sub { font-size: 18.5px; max-width: 52ch; margin: 6px 0 26px; color: #e9eeff; }
+.toc { border: 1.5px solid #fff; border-radius: 10px; padding: 5px 16px; font-weight: 600; font-size: 15.5px; background: rgba(6,10,70,.35); }
+.px { position: absolute; top: 70px; width: 108px; height: 108px; background: repeating-conic-gradient(var(--teal) 0 25%, transparent 0 50%) 0 0 / 36px 36px; opacity: .8;
+  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent); mask-image: linear-gradient(180deg, #000 55%, transparent); }
+.pxl { left: 0; top: 24px; } .pxr { right: 0; top: 372px; transform: scaleY(-1); }
+.spark { position: absolute; color: #fff; opacity: .85; font-size: 22px; animation: tw 3.4s ease-in-out infinite; }
+.s1 { left: 16%; top: 300px; } .s2 { right: 18%; top: 96px; font-size: 30px; animation-delay: -1.2s; } .s3 { right: 6%; bottom: 60px; animation-delay: -2.2s; }
+@keyframes tw { 50% { opacity: .25; transform: scale(.7) rotate(20deg); } }
+
+/* the lenses: section links shaped as magnifying glasses */
+.lenses { display: flex; flex-wrap: wrap; justify-content: center; gap: 34px 54px; margin-top: 38px; padding: 0 20px 34px; }
+.lens { position: relative; width: 168px; height: 168px; text-decoration: none; color: #fff; transition: transform .25s cubic-bezier(.2,.9,.3,1.3); }
+.lens::after { content: ""; position: absolute; left: 82%; top: 82%; width: 22px; height: 78px; border-radius: 12px; transform-origin: top center; transform: rotate(-45deg);
+  background: linear-gradient(90deg, #dfe9ff, #7c9cf2 60%, #4d6fd8); border: 1px solid rgba(255,255,255,.7); box-shadow: 0 10px 20px rgba(3,6,50,.4); }
+.lens .glass { position: absolute; inset: 0; z-index: 1; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center;
+  background: radial-gradient(circle at 30% 24%, rgba(255,255,255,.55), rgba(255,255,255,.08) 42%, rgba(20,45,200,.55) 100%);
+  border: 7px solid #e6eeff; box-shadow: 0 0 0 1.5px rgba(255,255,255,.55), 0 0 34px rgba(150,185,255,.75), inset 0 0 26px rgba(10,20,120,.55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.lens svg { width: 44px; height: 44px; fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s; }
+.lens b { font-weight: 800; font-size: 15px; line-height: 1.15; letter-spacing: .05em; text-transform: uppercase; text-shadow: 0 2px 8px rgba(3,6,60,.8); }
+.l1 { transform: rotate(-4deg); } .l2 { transform: translateY(34px) rotate(3deg); } .l3 { transform: translateY(8px) rotate(-2deg); } .l4 { transform: translateY(40px) rotate(4deg); }
+.lens:hover, .lens:focus-visible { transform: translateY(-4px) scale(1.14); z-index: 2; }
+.lens:hover svg { transform: scale(1.3); }
+
+/* numbers */
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 30px 0 60px; }
+.kpi { border-radius: var(--r); padding: 18px; display: flex; flex-direction: column; gap: 10px; min-height: 120px; justify-content: space-between; }
+.kpi b { font-size: clamp(30px, 4vw, 42px); font-weight: 800; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.kpi span { font-size: 14.5px; color: var(--muted); }
+.n1 b { color: var(--pink); } .n2 b { color: var(--teal); } .n3 b { color: var(--butter); } .n4 b { color: var(--sky); }
+
+/* about */
+.abouthead { display: grid; grid-template-columns: 240px 1fr; gap: 44px; align-items: center; margin-bottom: 26px; }
+.abouthead h2 { font-size: clamp(28px, 4.2vw, 44px); font-weight: 800; line-height: 1.08; letter-spacing: -.035em; margin: 6px 0 0; }
+.portrait { position: relative; width: 220px; height: 220px; }
+.portrait::after { content: ""; position: absolute; left: 80%; top: 80%; width: 26px; height: 92px; border-radius: 14px; transform-origin: top center; transform: rotate(-45deg);
+  background: linear-gradient(90deg, #dfe9ff, #7c9cf2 60%, #4d6fd8); border: 1px solid rgba(255,255,255,.7); }
+.portrait .glass { position: absolute; inset: 0; z-index: 1; border-radius: 50%; overflow: hidden; border: 8px solid #e6eeff; background: linear-gradient(180deg, #cfdcff, #86a8ff);
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,.55), 0 0 40px rgba(150,185,255,.8); }
+.portrait img { position: absolute; left: 50%; bottom: -2px; width: 122%; height: auto; transform: translateX(-50%); }
+.aboutbody { max-width: 760px; }
+.aboutbody p { margin: 0 0 12px; font-size: 17.5px; color: #eef2ff; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 10px; }
+.fact, .chipb { color: #fff; font: inherit; font-weight: 700; font-size: 14.5px; cursor: pointer; border: 1.5px solid rgba(255,255,255,.75); background: rgba(255,255,255,.06); border-radius: 999px; padding: 7px 16px; transition: background .15s, color .15s, transform .15s; }
+.fact:hover, .chipb:hover { background: rgba(255,255,255,.2); }
+.fact[aria-pressed="true"], .chipb[aria-pressed="true"] { background: #fff; color: var(--navy); }
+.factout { font-weight: 600; min-height: 1.7em; color: var(--butter) !important; }
+
+/* section heads */
+.sec { padding: 26px 0 74px; }
+.sechead { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 10px 30px; margin-bottom: 26px; }
+.sechead h2 { font-size: clamp(30px, 4.6vw, 48px); font-weight: 800; line-height: 1.05; letter-spacing: -.035em; margin: 6px 0 0; }
+.sechead p { max-width: 46ch; margin: 0; color: var(--muted); }
+
+/* project tabs */
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
+.tab { text-align: left; font: inherit; cursor: pointer; border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; transition: transform .15s, background .2s; }
+.tab:hover { transform: translateY(-3px); background: var(--glass2); }
+.tab small { font-family: var(--mono); font-size: 12px; color: var(--teal); }
+.tab b { font-weight: 800; font-size: 16px; line-height: 1.25; }
+.tab[aria-selected="true"] { background: #fff; color: var(--navy); box-shadow: 0 0 30px rgba(190,210,255,.6); }
+.tab[aria-selected="true"] small { color: #2a3fc0; }
+
+/* case studies */
+section.case { border-radius: 28px; margin: 0 0 26px; padding: 0 36px 30px; overflow: hidden; }
+.js section.case:not(.active) { display: none; }
+.js section.case.active { animation: rise .35s ease both; }
+@keyframes rise { from { transform: translateY(10px); } }
+.case-head { display: flex; flex-direction: column; gap: 8px; margin: 0 -36px 24px; padding: 26px 36px 22px; border-bottom: 1px solid var(--line); background: linear-gradient(90deg, rgba(255,255,255,.16), rgba(255,255,255,.03)); border-top: 4px solid var(--acc); }
+.tone-pink { --acc: var(--pink); } .tone-blue { --acc: var(--sky); } .tone-green { --acc: var(--teal); } .tone-butter { --acc: var(--butter); }
+.case-no { font-family: var(--mono); font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--acc); }
+.case h2 { font-weight: 800; font-size: clamp(24px, 3.6vw, 36px); line-height: 1.1; letter-spacing: -.03em; margin: 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; padding: 0; list-style: none; }
+.meta li { font-size: 12.5px; font-weight: 600; border: 1px solid var(--line); background: rgba(255,255,255,.1); border-radius: 999px; padding: 2px 11px; }
+.case h3 { font-size: 12.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--acc); margin: 28px 0 8px; }
+.case p { max-width: 70ch; margin: 0 0 12px; }
+.case ul, .case ol { max-width: 70ch; margin: 0 0 12px; padding-left: 22px; }
+.case li { margin-bottom: 6px; }
+.case ul.meta { padding-left: 0; max-width: none; margin: 6px 0 0; } .case ul.meta li { margin-bottom: 0; }
+.brief { display: grid; grid-template-columns: 1fr 1.25fr; gap: 14px 28px; margin-bottom: 16px; }
+.brief h3 { margin-top: 0; }
+.bq p:not(.question) { color: var(--muted); font-size: 15.5px; }
+.question { font-weight: 800; font-size: clamp(19px, 2.4vw, 23px); line-height: 1.28; letter-spacing: -.02em; }
+.finding { border-radius: 16px; padding: 16px 18px; background: rgba(255,255,255,.12); border-left: 4px solid var(--acc); }
+.finding p { margin: 0; } .finding strong { color: var(--acc); }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 0 0 14px; }
+.stat { border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 3px; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.stat b { font-weight: 800; font-size: 26px; line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 13.5px; color: var(--muted); line-height: 1.35; }
+.role { border: 1.5px dashed rgba(255,255,255,.6); border-radius: 16px; padding: 13px 18px; margin-bottom: 10px; } .role p { margin: 0; max-width: none; } .role b { color: var(--acc); }
+.credit { font-size: 14.5px; color: var(--muted); max-width: none !important; } .credit b { color: #fff; }
+details.deep { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 16px; }
+details.deep > summary { list-style: none; cursor: pointer; display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; background: #fff; color: var(--navy); border-radius: 999px; padding: 10px 20px; font-weight: 800; transition: box-shadow .15s; }
+details.deep > summary::-webkit-details-marker { display: none; }
+details.deep > summary span::after { content: " ↓"; } details.deep[open] > summary span::after { content: " ↑"; }
+details.deep > summary small { font-weight: 500; font-size: 13.5px; color: #3a4590; }
+details.deep > summary:hover { box-shadow: 0 0 24px rgba(255,255,255,.5); }
+figure { margin: 20px 0; }
+figure .frame { background: #fff; border-radius: 16px; padding: 10px; }
+figure img { display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 8px; }
+img.zoom { cursor: zoom-in; }
+figure.poster .frame { max-width: 560px; }
+figcaption { font-size: 14.5px; color: var(--muted); margin-top: 8px; max-width: 70ch; } figcaption b { color: #fff; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; } .pair figure { margin: 12px 0; }
+.calm img { filter: saturate(.3); transition: filter .25s; } .calm img:hover, .calm img:focus { filter: none; }
+.tablewrap { overflow-x: auto; margin: 0 0 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,.16); }
+th { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border-bottom: 1.5px solid rgba(255,255,255,.7); }
+tbody tr:hover { background: rgba(255,255,255,.07); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.bars { display: grid; gap: 9px; margin: 0 0 12px; }
+.bar { display: grid; grid-template-columns: 170px 1fr 84px; gap: 10px; align-items: center; font-size: 15px; }
+.bar .track { background: rgba(255,255,255,.14); border-radius: 999px; height: 16px; overflow: hidden; }
+.bar .fill { background: linear-gradient(90deg, var(--sky), var(--teal)); height: 100%; border-radius: 999px; transform-origin: left; animation: grow .8s ease both; }
+@keyframes grow { from { transform: scaleX(.05); } }
+.bar .v { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+pre { overflow-x: auto; background: rgba(3,6,45,.78); color: #e6ecff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; font-family: var(--mono); font-size: 13.5px; line-height: 1.55; margin: 0 0 8px; }
+code { font-family: var(--mono); font-size: .92em; }
+.note { font-size: 14.5px; color: var(--muted); }
+
+/* more projects */
+.more { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; align-items: start; }
+.mcard { border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 10px; transition: transform .2s, background .2s; }
+.mcard:hover { transform: translateY(-5px) scale(1.02); background: var(--glass2); }
+.mcard.hide { display: none; }
+.mcard h3 { font-weight: 800; font-size: 19.5px; line-height: 1.2; margin: 0; }
+.mcard p { margin: 0; font-size: 15px; color: #e9eeff; }
+.tag { align-self: flex-start; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; border-radius: 999px; padding: 3px 11px; border: 1px solid var(--teal); color: var(--teal); }
+.tag.wip { background: var(--butter); border-color: var(--butter); color: var(--navy); }
+.mcard details { border-top: 1px dashed rgba(255,255,255,.45); padding-top: 8px; }
+.mcard summary { cursor: pointer; font-weight: 700; font-size: 14.5px; }
+.mcard details p { margin-top: 6px; font-size: 14.5px; color: var(--muted); }
+
+/* quiz */
+.game { border-radius: 26px; padding: 24px 26px; display: flex; flex-direction: column; gap: 14px; max-width: 760px; }
+.gtop { display: flex; justify-content: space-between; align-items: center; }
+.gcount { font-family: var(--mono); font-size: 13px; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; }
+.game h3 { font-size: clamp(18px, 2.2vw, 22px); font-weight: 800; line-height: 1.3; margin: 0; min-height: 2.6em; }
+.gauge { position: relative; height: 26px; border-radius: 999px; background: rgba(255,255,255,.14); overflow: hidden; }
+.gfill { height: 100%; width: 50%; background: linear-gradient(90deg, var(--sky), var(--teal)); transition: width .12s; }
+.gtruth { position: absolute; top: 0; bottom: 0; width: 6px; margin-left: -3px; background: var(--pink); box-shadow: 0 0 12px var(--pink); left: 0; opacity: 0; transition: left .7s cubic-bezier(.2,.9,.3,1.2), opacity .2s; }
+.gslide { display: flex; align-items: center; gap: 12px; }
+.gslide input { flex: 1; accent-color: #fff; height: 28px; }
+.gslide output { font-weight: 800; font-size: 22px; min-width: 62px; text-align: right; font-variant-numeric: tabular-nums; }
+.gres { margin: 0; font-size: 15.5px; min-height: 3.3em; color: #eef2ff; } .gres b { color: var(--butter); }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.gscore { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+
+/* experience */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.xp { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.xp li { display: grid; grid-template-columns: 150px 1fr; gap: 4px 18px; border-radius: 16px; padding: 14px 18px; transition: opacity .2s, transform .2s; }
+.xp li.dim { opacity: .25; transform: scale(.985); }
+.xp .when { font-family: var(--mono); font-size: 12.5px; padding-top: 4px; color: var(--teal); }
+.xp b { font-weight: 800; font-size: 17px; }
+.xp p { margin: 2px 0 0; font-size: 15px; color: var(--muted); }
+.skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; }
+.skills div { border-radius: 20px; padding: 18px; }
+.skills div:nth-child(1) { border-top: 4px solid var(--pink); } .skills div:nth-child(2) { border-top: 4px solid var(--teal); } .skills div:nth-child(3) { border-top: 4px solid var(--butter); }
+.skills h3 { margin: 0 0 6px; font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.skills p { margin: 0; font-size: 15.5px; color: #e9eeff; }
+
+/* contact */
+.contact { margin: 0 0 30px; border-radius: 34px; padding: 54px 30px; text-align: center; }
+.contact h2 { font-family: var(--script); font-style: italic; font-weight: 400; font-size: clamp(44px, 8vw, 84px); line-height: 1; margin: 0 0 14px; text-shadow: 0 0 18px rgba(170,200,255,.9), 0 0 50px rgba(120,160,255,.6); }
+.contact p { margin: 0 auto 22px; max-width: 50ch; color: #e9eeff; }
+.contact .ways { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.contact .mail { font-family: var(--mono); font-size: 14px; display: block; margin-top: 16px; color: var(--muted); }
+footer { padding: 0 0 46px; font-size: 14px; color: var(--muted); text-align: center; }
+footer p { max-width: 76ch; margin: 0 auto; }
+
+/* loupe + lightbox */
+#mag { display: none; position: fixed; z-index: 40; width: 190px; height: 190px; border-radius: 50%; pointer-events: none; background-color: #fff; background-repeat: no-repeat;
+  border: 6px solid #e6eeff; box-shadow: 0 0 0 1.5px rgba(255,255,255,.6), 0 0 30px rgba(150,185,255,.8), 0 16px 34px rgba(3,6,50,.5); }
+#lb { position: fixed; inset: 0; z-index: 50; background: rgba(4,7,50,.9); display: none; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+#lb.open { display: flex; }
+#lb img { max-width: 100%; max-height: 100%; border-radius: 10px; background: #fff; }
+#lb button { position: absolute; top: 14px; right: 14px; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+@media (max-width: 900px) {
+  .kpis { grid-template-columns: 1fr 1fr; } .more { grid-template-columns: 1fr 1fr; } .tabs { grid-template-columns: 1fr 1fr; } .brief { grid-template-columns: 1fr; }
+  .px { display: none; } .lenses { gap: 44px 40px; } .lens { transform: none !important; }
+}
+@media (max-width: 640px) {
+  .skills { grid-template-columns: 1fr; } .stats { grid-template-columns: 1fr 1fr; } .more { grid-template-columns: 1fr; } .abouthead { grid-template-columns: 1fr; gap: 34px; } .pair { grid-template-columns: 1fr; }
+  section.case { padding: 0 18px 24px; border-radius: 22px; } .case-head { margin: 0 -18px 22px; padding: 22px 18px 18px; }
+  .bar { grid-template-columns: 1fr 70px; } .bar .track { grid-column: 1 / -1; order: 3; }
+  .xp li { grid-template-columns: 1fr; } .dock a { padding: 7px 11px; font-size: 13.5px; }
+  .lens { width: 138px; height: 138px; } .lens b { font-size: 13px; } .lenses { gap: 40px 34px; }
+}
+
+/* v7 hero: left-aligned statement, one loupe, straight row of section cards */
+.hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 30px; align-items: center; text-align: left; padding: 50px 0 34px; }
+.htext { display: flex; flex-direction: column; align-items: flex-start; }
+.hero h1 { font-family: var(--font); font-weight: 800; font-size: clamp(36px, 5.4vw, 62px); line-height: 1.06; letter-spacing: -.035em; margin: 10px 0 16px; }
+.hero h1 em { font-style: normal; color: var(--teal); }
+.hero p.sub { margin: 0 0 24px; max-width: 44ch; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.loupe { position: relative; justify-self: center; width: min(290px, 78%); aspect-ratio: 1; animation: drift 7s ease-in-out infinite; }
+@keyframes drift { 50% { transform: translate(-10px, 8px) rotate(-3deg); } }
+.loupe::after { content: ""; position: absolute; left: 80%; top: 80%; width: 30px; height: 112px; border-radius: 16px; transform-origin: top center; transform: rotate(-45deg); background: linear-gradient(90deg, #dfe9ff, #7c9cf2 60%, #4d6fd8); border: 1px solid rgba(255,255,255,.7); }
+.loupe .glass { position: absolute; inset: 0; z-index: 1; border-radius: 50%; border: 9px solid #e6eeff; background: radial-gradient(circle at 30% 22%, rgba(255,255,255,.35), rgba(255,255,255,.06) 45%, rgba(8,20,130,.55)); box-shadow: 0 0 0 1.5px rgba(255,255,255,.5), 0 0 44px rgba(150,185,255,.6); display: grid; place-items: center; }
+.loupe svg { width: 78%; height: 78%; }
+.loupe rect { fill: rgba(169,200,255,.55); } .loupe circle { fill: #fff; }
+.loupe .ax { fill: none; stroke: rgba(255,255,255,.7); stroke-width: 2.5; stroke-linecap: round; }
+.loupe .tr { fill: none; stroke: var(--teal); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.jump { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.jcard { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; padding: 14px 16px; border-radius: 18px; background: var(--glass); border: 1px solid var(--line); transition: transform .2s, background .2s; }
+.jcard:hover { transform: translateY(-4px) scale(1.03); background: var(--glass2); }
+.jcard .ico { flex: none; width: 46px; height: 46px; border-radius: 50%; border: 3px solid #e6eeff; display: grid; place-items: center; transition: transform .2s; }
+.jcard:hover .ico { transform: scale(1.18); }
+.jcard svg { width: 24px; height: 24px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.jcard b { display: block; font-weight: 800; font-size: 16px; line-height: 1.2; } .jcard small { color: var(--muted); font-size: 13.5px; }
+.kpis { padding-top: 14px; }
+.contact h2 { font-family: var(--font); font-style: normal; font-weight: 800; font-size: clamp(34px, 6vw, 58px); letter-spacing: -.04em; text-shadow: none; }
+@media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .loupe { display: none; } .jump { grid-template-columns: 1fr 1fr; } }
+
+/* v8: file-with-magnifier shortcuts, selection-frame portrait */
+.file { display: flex; align-items: center; gap: 14px; text-decoration: none; color: #fff; padding: 14px 16px; border-radius: 18px; background: var(--glass); border: 1px solid var(--line); transition: transform .2s, background .2s; }
+.file:hover, .file:focus-visible { transform: translateY(-4px); background: var(--glass2); }
+.doc { position: relative; flex: none; width: 50px; height: 62px; border-radius: 7px; background: linear-gradient(160deg, #ffffff, #cfdcff); display: flex; flex-direction: column; gap: 6px; padding: 20px 9px 0; }
+.doc::before { content: ""; position: absolute; right: 0; top: 0; width: 16px; height: 16px; background: linear-gradient(225deg, #1226b0 50%, #8ea9f5 50%); border-top-right-radius: 7px; }
+.doc i { display: block; height: 4px; border-radius: 2px; background: #5f7fe0; } .doc i:nth-child(2) { width: 70%; } .doc i:nth-child(3) { width: 45%; background: var(--pink); }
+.file { position: relative; }
+.mg { position: absolute; left: 38px; top: 38px; width: 38px; height: 38px; fill: rgba(134,243,227,.28); stroke: #fff; stroke-width: 5; stroke-linecap: round; filter: drop-shadow(0 3px 6px rgba(3,6,50,.6)); transition: transform .35s cubic-bezier(.2,.9,.3,1.3); }
+.doc { overflow: visible; } .doc .mg { left: 22px; top: 30px; }
+.file:hover .mg, .file:focus-visible .mg { transform: translate(-14px, -16px) scale(1.25); }
+.ft small { display: block; font-family: var(--mono); font-size: 12px; color: var(--teal); }
+.ft b { display: block; font-weight: 800; font-size: 16.5px; line-height: 1.2; } .ft em { font-style: normal; color: var(--muted); font-size: 13.5px; }
+.portrait { width: 220px; height: 240px; }
+.portrait::after { content: none; }
+.pframe { position: absolute; inset: 0; border-radius: 6px; overflow: hidden; background: linear-gradient(180deg, #d6e2ff, #8fb0ff); outline: 2px solid var(--teal); outline-offset: 5px; }
+.pframe img { position: absolute; left: 50%; bottom: -2px; width: 128%; height: auto; transform: translateX(-50%); }
+.portrait .h { position: absolute; width: 11px; height: 11px; background: #fff; border: 2px solid var(--teal); }
+.h1 { left: -12px; top: -12px; } .h2 { right: -12px; top: -12px; } .h3 { left: -12px; bottom: -12px; } .h4 { right: -12px; bottom: -12px; }
+.ptag { position: absolute; left: -7px; top: -36px; font-family: var(--mono); font-size: 12px; background: var(--teal); color: var(--navy); border-radius: 4px; padding: 1px 8px; }
+
+/* v9: small data doodles floating on the grid */
+.hero, .sec { position: relative; }
+.deco { position: absolute; width: 46px; height: 46px; fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; opacity: .8; pointer-events: none;
+  filter: drop-shadow(0 0 7px rgba(170,205,255,.95)); animation: bobd 6s ease-in-out infinite; }
+@keyframes bobd { 50% { transform: translateY(-9px) rotate(5deg); } }
+.d1 { right: 37%; top: 58px; } .d2 { right: 1%; top: 70px; width: 40px; animation-delay: -2s; } .d3 { right: 34%; bottom: 46px; animation-delay: -3.5s; } .d4 { right: 3%; bottom: 20px; width: 38px; animation-delay: -1s; }
+.ds { right: 8px; top: -22px; width: 52px; height: 52px; animation-delay: -2.5s; }
+@media (max-width: 900px) { .deco { display: none; } }
+
+/* v10: section shortcuts as frosted folders, four in a row, each with its own illustration */
+.jump { grid-template-columns: repeat(4, 1fr) !important; gap: 14px; margin-top: 8px; }
+.file { flex-direction: column; align-items: center; text-align: center; gap: 12px; padding: 22px 12px 16px; }
+.folder { position: relative; width: 132px; height: 102px; flex: none; }
+.folder .back { position: absolute; inset: 0; border-radius: 14px; background: linear-gradient(180deg, #8fb2ff, #4a70e8); box-shadow: 0 12px 24px rgba(3,6,50,.35); }
+.folder .back::before { content: ""; position: absolute; left: 0; top: -9px; width: 46%; height: 20px; border-radius: 10px 12px 0 0; background: #8fb2ff; }
+.sheet { position: absolute; left: 14%; right: 14%; top: -8px; height: 74px; border-radius: 9px; background: #fff; padding: 12px 12px 0; display: flex; flex-direction: column; gap: 7px; transition: transform .3s cubic-bezier(.2,.9,.3,1.3); }
+.sheet.s1 { transform: translate(12px, 5px) rotate(6deg); background: #e8efff; } .sheet.s2 { transform: rotate(-3deg); }
+.sheet i { display: block; height: 5px; border-radius: 3px; background: #9db6f7; } .sheet i:nth-child(2) { width: 72%; } .sheet i:nth-child(3) { width: 48%; background: var(--acc); }
+.folder .front { position: absolute; left: -5%; right: -5%; bottom: 0; height: 68%; border-radius: 12px 14px 14px 14px; display: grid; place-items: center;
+  background: linear-gradient(180deg, rgba(196,216,255,.5), rgba(120,160,255,.42)); border: 1px solid rgba(255,255,255,.75); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7); transition: transform .3s; }
+.folder svg { width: 54px; height: 54px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 2px 5px rgba(8,20,130,.7)); }
+.folder svg .fit { stroke: var(--acc); stroke-width: 3.4; }
+.fa { --acc: var(--pink); } .fb { --acc: var(--teal); } .fc { --acc: var(--butter); } .fd { --acc: var(--sky); }
+.file:hover .s2, .file:focus-visible .s2 { transform: translateY(-14px) rotate(-5deg); }
+.file:hover .s1, .file:focus-visible .s1 { transform: translate(14px, -8px) rotate(9deg); }
+.file:hover .front, .file:focus-visible .front { transform: perspective(300px) rotateX(-14deg); transform-origin: bottom; }
+.ft small { color: var(--acc); }
+@media (max-width: 640px) { .jump { gap: 8px; } .file { padding: 16px 4px 12px; } .folder { width: 64px; height: 50px; } .sheet { height: 36px; padding: 6px 6px 0; gap: 4px; } .sheet i { height: 3px; } .folder svg { width: 22px; height: 22px; } .ft b { font-size: 13px; } .ft em { display: none; } }
+
+/* v11: bare folders, lanyard badge, toolkit tiles */
+.file, .file:hover, .file:focus-visible { background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; padding: 26px 6px 10px; }
+.file:hover, .file:focus-visible { transform: none; }
+.folder { transition: transform .18s ease-out; transform: perspective(520px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--ty, 0px)); }
+.file:hover .folder { --ty: -8px; } .file:active .folder { transform: perspective(520px) scale(.92); }
+.file:hover .ft b { color: var(--acc); }
+
+.abouthead { grid-template-columns: 250px 1fr; align-items: start; }
+.abouthead > div:last-child { align-self: center; }
+.kpis { position: relative; z-index: 1; padding-bottom: 96px; }
+.about { padding-top: 60px; }
+.lanyard { position: relative; width: 214px; margin: 0 auto; transform-origin: 50% -190px; animation: sway 5.5s ease-in-out infinite; }
+.lanyard:hover { animation-duration: 1.6s; }
+@keyframes sway { 0%, 100% { transform: rotate(-2.2deg); } 50% { transform: rotate(2.2deg); } }
+.strap { position: absolute; left: 50%; bottom: calc(100% + 14px); width: 17px; height: 250px; margin-left: -8.5px; transform-origin: bottom center; border-radius: 3px;
+  background: repeating-linear-gradient(180deg, var(--teal) 0 26px, #5fd9d0 26px 30px); box-shadow: inset -4px 0 0 rgba(8,20,130,.18);
+  -webkit-mask-image: linear-gradient(0deg, #000 70%, transparent); mask-image: linear-gradient(0deg, #000 70%, transparent); }
+.sa { transform: rotate(-10deg); } .sb { transform: rotate(10deg); filter: brightness(.86); }
+.clip { position: absolute; left: 50%; top: -20px; width: 26px; height: 34px; margin-left: -13px; z-index: 2; border-radius: 8px 8px 12px 12px; background: linear-gradient(90deg, #f4f7ff, #aebdf0 55%, #dfe7ff); border: 1px solid #fff; box-shadow: 0 3px 6px rgba(3,6,50,.4); }
+.clip::after { content: ""; position: absolute; left: 7px; top: 16px; width: 10px; height: 10px; border-radius: 50%; background: #5c74d6; }
+.badge { position: relative; border-radius: 20px; padding: 30px 14px 16px; text-align: center; color: var(--navy); background: linear-gradient(180deg, #ffffff, #dfe8ff); border: 1px solid #fff; box-shadow: 0 22px 44px rgba(3,6,50,.45), 0 0 34px rgba(150,185,255,.45); }
+.slot { position: absolute; left: 50%; top: 10px; width: 44px; height: 9px; margin-left: -22px; border-radius: 6px; background: #1a2fbf; opacity: .85; }
+.bphoto { position: relative; height: 178px; border-radius: 14px; overflow: hidden; background: linear-gradient(180deg, #c9d8ff, #7fa3ff); margin-bottom: 12px; }
+.bphoto img { position: absolute; left: 50%; bottom: -2px; width: 122%; height: auto; transform: translateX(-50%); }
+.badge b { display: block; font-weight: 800; font-size: 17px; line-height: 1.2; letter-spacing: -.01em; }
+.badge small { display: block; font-size: 12px; font-weight: 600; color: #3a4cb8; margin-top: 3px; }
+.bbars { display: flex; align-items: flex-end; justify-content: center; gap: 4px; height: 22px; margin-top: 12px; } .bbars i { width: 9px; border-radius: 2px; background: #2a40c8; opacity: .8; }
+
+.tk { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin: 22px 0 10px; }
+.tools { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.tools li { display: flex; align-items: center; gap: 10px; padding: 8px 14px 8px 8px; border-radius: 14px; background: var(--glass); border: 1px solid var(--line); transition: transform .2s; }
+.tools li:hover { transform: translateY(-4px) rotate(-1.5deg); }
+.mono { flex: none; width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center; font-family: var(--mono); font-weight: 500; font-size: 14px; color: var(--navy); background: var(--acc); }
+.tools b { display: block; font-size: 14.5px; line-height: 1.2; } .tools small { color: var(--muted); font-size: 12.5px; }
+.ta { --acc: var(--sky); } .tb { --acc: var(--butter); } .tc { --acc: var(--teal); } .td { --acc: var(--pink); } .te { --acc: #c9b8ff; }
+@media (max-width: 640px) { .abouthead { grid-template-columns: 1fr; } }
+
+/* v12: toolkit chip reveals the app icons */
+.apps { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 16px; }
+.apps li { display: flex; flex-direction: column; align-items: center; gap: 7px; width: 78px; animation: pop .45s cubic-bezier(.2,.9,.3,1.4) both; }
+.apps li:nth-child(2) { animation-delay: .06s; } .apps li:nth-child(3) { animation-delay: .12s; } .apps li:nth-child(4) { animation-delay: .18s; } .apps li:nth-child(5) { animation-delay: .24s; }
+@keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.6); } }
+.app { width: 72px; height: 72px; border-radius: 18px; background: #fff; display: grid; place-items: center; padding: 11px; box-shadow: 0 10px 22px rgba(3,6,50,.4), inset 0 -3px 0 rgba(10,30,150,.12); transition: transform .2s; }
+.app:hover { transform: translateY(-6px) rotate(-4deg); }
+.app img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
+.apps b { font-size: 13px; font-weight: 700; }
+
+/* v13 */
+.app img { width: 50px; height: 50px; max-width: none; max-height: none; object-fit: contain; }
+.btag { display: inline-block; margin-top: 12px; font-size: 11.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #fff; background: #1a2fbf; border-radius: 999px; padding: 4px 14px; }
+
+/* v14 */
+.bill { display: block; width: 150px; height: auto; margin: 12px auto 0; overflow: visible; }
+.bill .area { fill: #cfe0ff; } .bill .curve { fill: none; stroke: #1a2fbf; stroke-width: 3; stroke-linecap: round; }
+.bill .mean { stroke: #1a2fbf; stroke-width: 1.8; stroke-dasharray: 3 3.5; } .bill .base { stroke: #1a2fbf; stroke-width: 2; stroke-linecap: round; }
+.bill .pen { fill: #ffb7dc; stroke: #1a2fbf; stroke-width: 1.6; stroke-linejoin: round; } .bill .tip { fill: #1a2fbf; } .bill .band { stroke: #1a2fbf; stroke-width: 1.6; }
+
+/* v15: more doodles in the left and right gutters (wide screens only) */
+.dg { display: none; width: 48px; height: 48px; }
+@media (min-width: 1250px) { .dg { display: block; } }
+.gl { left: -74px; } .gr { right: -74px; }
+.g1 { top: 90px; animation-delay: -1s; } .g2 { top: 36%; animation-delay: -3s; } .g3 { top: 62%; animation-delay: -4.5s; } .g4 { top: 86%; animation-delay: -2s; }
+body { overflow-x: clip; }
+</style>
+</head>
+<body>
+
+<div class="dock"><nav aria-label="Main">
+  <a href="#about">About Me</a>
+  <a href="#work">Case studies</a>
+  <a href="#more">More projects</a>
+  <a href="#experience">Experience</a>
+  <a href="#contact">Contact</a>
+</nav></div>
+
+<div class="wrap">
+  <header class="hero" id="top">
+    <svg class="deco d1" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="17"/><path d="M24 7v17l13 11"/></svg><svg class="deco d2" viewBox="0 0 48 48" aria-hidden="true"><path d="M36 12V8H12l13 16-13 16h24v-4"/></svg><svg class="deco d3" viewBox="0 0 48 48" aria-hidden="true"><path d="M7 6v35h35"/><circle cx="16" cy="32" r="2.5"/><circle cx="22" cy="25" r="2.5"/><circle cx="29" cy="27" r="2.5"/><circle cx="33" cy="17" r="2.5"/><circle cx="39" cy="12" r="2.5"/></svg><svg class="deco d4" viewBox="0 0 48 48" aria-hidden="true"><circle cx="13" cy="13" r="6"/><circle cx="35" cy="35" r="6"/><path d="M38 8 10 40"/></svg>
+    <div class="htext">
+      <span class="hello"><i></i> Open to data analyst opportunities</span>
+      <p class="eyebrow">Andrea Ratu Felia · Statistics, Universitas Indonesia</p>
+      <h1>I look closely at data until it gives a <em>clear answer</em>.</h1>
+      <p class="sub">SQL, Python and R for the analysis. Design for making the result easy to read.</p>
+      <div class="cta">
+        <a class="btn" href="#work">See my case studies <span class="arr">→</span></a>
+        <a class="btn ghost" href="#about">About me</a>
+      </div>
+    </div>
+    <div class="loupe" aria-hidden="true">
+      <div class="glass"><svg viewBox="0 0 200 200">
+        <path class="ax" d="M34 40v118h136"/>
+        <rect x="48" y="122" width="18" height="36" rx="3"/><rect x="74" y="104" width="18" height="54" rx="3"/><rect x="100" y="112" width="18" height="46" rx="3"/><rect x="126" y="82" width="18" height="76" rx="3"/><rect x="152" y="62" width="18" height="96" rx="3"/>
+        <path class="tr" d="M57 112 83 92 109 98 135 68 161 48"/>
+        <circle cx="57" cy="112" r="4.5"/><circle cx="83" cy="92" r="4.5"/><circle cx="109" cy="98" r="4.5"/><circle cx="135" cy="68" r="4.5"/><circle cx="161" cy="48" r="4.5"/>
+      </svg></div>
+    </div>
+  </header>
+
+  <nav class="jump" aria-label="Sections">
+    <a class="file fa" href="#about"><span class="folder"><span class="back"></span><span class="sheet s1"><i></i><i></i><i></i></span><span class="sheet s2"><i></i><i></i><i></i></span><span class="front"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="17" r="8"/><path d="M8 42c2-10 9-14 16-14s14 4 16 14"/></svg></span></span><span class="ft"><small>01</small><b>About me</b><em>Who I am</em></span></a>
+    <a class="file fb" href="#work"><span class="folder"><span class="back"></span><span class="sheet s1"><i></i><i></i><i></i></span><span class="sheet s2"><i></i><i></i><i></i></span><span class="front"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 42h36"/><rect x="9" y="26" width="7" height="12" rx="1.5"/><rect x="20.5" y="16" width="7" height="22" rx="1.5"/><rect x="32" y="8" width="7" height="30" rx="1.5"/></svg></span></span><span class="ft"><small>02</small><b>Case studies</b><em>Four in depth</em></span></a>
+    <a class="file fc" href="#more"><span class="folder"><span class="back"></span><span class="sheet s1"><i></i><i></i><i></i></span><span class="sheet s2"><i></i><i></i><i></i></span><span class="front"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 6v36h36"/><circle cx="14" cy="33" r="2.4"/><circle cx="19" cy="25" r="2.4"/><circle cx="25" cy="29" r="2.4"/><circle cx="29" cy="19" r="2.4"/><circle cx="36" cy="16" r="2.4"/><circle cx="38" cy="8" r="2.4"/><path class="fit" d="M10 36 41 7"/></svg></span></span><span class="ft"><small>03</small><b>More projects</b><em>Six in short</em></span></a>
+    <a class="file fd" href="#experience"><span class="folder"><span class="back"></span><span class="sheet s1"><i></i><i></i><i></i></span><span class="sheet s2"><i></i><i></i><i></i></span><span class="front"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="4"/><path d="M18 16v-5h12v5M6 27h36M24 25v4"/></svg></span></span><span class="ft"><small>04</small><b>Experience</b><em>Roles and skills</em></span></a>
+  </nav>
+
+  <section class="kpis" aria-label="At a glance">
+    <div class="kpi n1"><b data-count="7636">7,636</b><span>products modeled in a SQL database</span></div>
+    <div class="kpi n2"><b data-count="2629">2,629</b><span>days of electricity demand forecast</span></div>
+    <div class="kpi n3"><b data-count="77488">77,488</b><span>app reviews being classified</span></div>
+    <div class="kpi n4"><b data-count="10">10</b><span>data projects on this page</span></div>
+  </section>
+
+  <section class="sec about" id="about">
+    <svg class="deco dg gl g1" viewBox="0 0 48 48" aria-hidden="true"><path d="M16 12 5 24l11 12M32 12l11 12-11 12M28 8 20 40"/></svg><svg class="deco dg gr g2" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="17"/><circle cx="24" cy="24" r="7"/><path d="M24 7v10M36 36l-7-7"/></svg>
+    <svg class="deco ds" viewBox="0 0 48 48" aria-hidden="true"><path d="M3 38C17 38 15 10 24 10S31 38 45 38"/><path d="M3 43h42"/></svg>
+    <div class="abouthead">
+      <div class="lanyard">
+        <span class="strap sa"></span><span class="strap sb"></span><span class="clip"></span>
+        <div class="badge"><span class="slot"></span>
+          <div class="bphoto"><img src="img/felia-portrait.png" alt="Andrea Ratu Felia smiling" width="640" height="535"></div>
+          <b>Andrea Ratu Felia</b><small>Statistics · Universitas Indonesia</small>
+          <svg class="bill" viewBox="0 0 170 50" aria-hidden="true">
+            <path class="area" d="M6 42C40 42 44 8 68 8s28 34 62 34z"/>
+            <path class="curve" d="M6 42C40 42 44 8 68 8s28 34 46 34"/>
+            <path class="mean" d="M68 10v32"/>
+            <path class="base" d="M4 43h128"/>
+            <g transform="translate(112 43) rotate(-45)"><path class="pen" d="M0 0l5-3.5h30a3 3 0 0 1 3 3v1a3 3 0 0 1-3 3H5z"/><path class="tip" d="M0 0l5-3.5v7z"/><path class="band" d="M29-3.5v7"/></g>
+          </svg>
+        </div>
+      </div>
+      <div><span class="label">About me</span><h2>Hi, I’m Felia.<br>Statistics is my toolbox, design is my voice.</h2></div>
+    </div>
+    <div class="aboutbody">
+      <p>I’m a statistics undergraduate at Universitas Indonesia and an assistant lecturer for Sampling and Survey Design. Most of my work starts with untidy data and ends with something a non-statistician can read: a query result, a forecast with honest uncertainty, or an infographic.</p>
+      <p>Outside class I lead creative teams, which is where I learned to explain numbers to people who did not ask for a formula.</p>
+      <div class="facts">
+        <button class="fact" type="button" data-more="Bekasi, Indonesia. Happy to work in Jakarta or remotely.">Where I am</button>
+        <button class="fact" type="button" data-more="SQL for getting data, Python and R for analysis, Figma and Canva for the story." data-apps="1">My toolkit</button>
+        <button class="fact" type="button" data-more="Assistant lecturer for Sampling and Survey Design at Universitas Indonesia since August 2026. I also teach mathematics to junior high school students.">Teaching</button>
+        <button class="fact" type="button" data-more="Turning a result into one chart that needs no explanation.">Favourite part</button>
+      </div>
+      <p class="factout" id="factout" aria-live="polite">Tap a chip to learn more.</p>
+      <ul class="apps" id="apps" hidden><li><span class="app"><img src="img/tool-mysql.png" alt="" width="220" height="114"></span><b>MySQL</b></li><li><span class="app"><img src="img/tool-python.png" alt="" width="220" height="216"></span><b>Python</b></li><li><span class="app"><img src="img/tool-rstudio.png" alt="" width="220" height="220"></span><b>RStudio</b></li><li><span class="app"><img src="img/tool-figma.png" alt="" width="147" height="220"></span><b>Figma</b></li><li><span class="app"><img src="img/tool-canva.png" alt="" width="220" height="220"></span><b>Canva</b></li></ul>
+    </div>
+  </section>
+
+  <section class="sec" id="work">
+    <svg class="deco dg gl g2" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="11" rx="15" ry="6"/><path d="M9 11v26c0 3.3 6.7 6 15 6s15-2.7 15-6V11M9 24c0 3.3 6.7 6 15 6s15-2.7 15-6"/></svg><svg class="deco dg gr g3" viewBox="0 0 48 48" aria-hidden="true"><path d="M5 42h38"/><rect x="8" y="30" width="6" height="12"/><rect x="14" y="20" width="6" height="22"/><rect x="20" y="10" width="6" height="32"/><rect x="26" y="16" width="6" height="26"/><rect x="32" y="28" width="6" height="14"/></svg><svg class="deco dg gl g4" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 24h8M36 24h8M4 18v12M44 18v12"/><rect x="12" y="14" width="24" height="20" rx="2"/><path d="M22 14v20"/></svg>
+    <svg class="deco ds" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="9" width="36" height="30" rx="4"/><path d="M6 19h36M6 29h36M18 9v30M30 9v30"/></svg>
+    <div class="sechead">
+      <div><span class="label">Case studies</span><h2>Four questions,<br>answered with data</h2></div>
+      <p>Pick a project. The question, the answer and my part come first. Open the full analysis for the method, the evidence and the limitations.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Case studies">
+      <button class="tab t-pink" role="tab" data-target="sociolla" aria-selected="true" type="button"><small>01 · SQL</small><b>What do beauty shoppers buy again?</b></button>
+      <button class="tab t-blue" role="tab" data-target="energy" aria-selected="false" type="button"><small>02 · Forecasting</small><b>How much power next week?</b></button>
+      <button class="tab t-green" role="tab" data-target="sp500" aria-selected="false" type="button"><small>03 · Simulation</small><b>Can you trust a simulation?</b></button>
+      <button class="tab t-butter" role="tab" data-target="gizi" aria-selected="false" type="button"><small>04 · Multivariate</small><b>Do cities eat better?</b></button>
+    </div>
+<section class="case tone-pink" id="sociolla">
+  <div class="case-head">
+    <span class="case-no">Case study 01</span>
+    <h2>Sociolla beauty product database</h2>
+    <ul class="meta"><li>MySQL</li><li>SQLite</li><li>Python</li><li>Database for Data Science</li><li>Jun 2026</li><li>Group of 5</li></ul>
+  </div>
+
+  <div class="brief">
+  <div class="bq">
+  <h3>Question</h3>
+  <p class="question">Which product categories and brands do Sociolla shoppers want most, rate best, and buy again?</p>
+  <p>The raw data was one flat CSV file of product listings. Before anyone could answer that question reliably, the data had to be cleaned and stored in a structure that could be queried.</p>
+
+  </div>
+  <div class="bf">
+  <h3>What we found</h3>
+  <div class="finding"><p><strong>Skincare dominates demand, and everyday essentials earn the most loyalty.</strong> Toner is the most wishlisted category (474,665 wishlists), while Hand Wash has the highest repurchase intent: 85.3% of respondents say they would buy again.</p></div>
+
+  </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>7,636</b><span>products</span></div>
+    <div class="stat"><b>321</b><span>brands</span></div>
+    <div class="stat"><b>19 → 29</b><span>columns before and after parsing</span></div>
+    <div class="stat"><b>27.5%</b><span>of activation dates missing (2,102 rows)</span></div>
+  </div>
+  <div class="role"><p><b>My part.</b> Part of the data pre-processing, the relational tables, and the SQL implementation: building the database, the CRUD operations, and the analytical queries shown below.</p></div>
+  <p class="credit"><b>Team (Group A4).</b> Genisha Almyra Mumtaz (ER diagram, dashboard, conclusions), Haikal Faiz (introduction, dashboard testing), Maria Ellora Damarkasih (relational tables, SQL implementation), Muhammad Varendra (ER diagram, dashboard).</p>
+  <details class="deep">
+  <summary><span>Open the full analysis</span><small>data, method, evidence and limitations</small></summary>
+  <h3>The data</h3>
+  <p>Source: a dataset of Sociolla product listings (<code>products_all_brands.csv</code>). Prices and ratings were stored as text dictionaries, categories were nested, and several rating aspects were empty for products where they do not apply, such as scent for a makeup brush.</p>
+
+  <h3>Approach</h3>
+  <ol>
+    <li><b>Clean.</b> Parsed price and rating dictionaries into numeric columns. Missing activation dates were imputed with the median date, and rating gaps were filled with the median of the relevant product category only where the aspect applies.</li>
+    <li><b>Model.</b> Normalized the flat file into five related tables: Brand, Category, Product, Rating and Engagement, linked by primary and foreign keys.</li>
+    <li><b>Load.</b> Imported the cleaned CSV through a staging table, then populated the five tables in dependency order (ETL).</li>
+    <li><b>Query.</b> Wrote 13 analytical queries: 3 multi-table JOINs, 5 aggregations with GROUP BY and HAVING, and 5 rankings.</li>
+    <li><b>Present.</b> My teammates built a web dashboard on top of the database to run the queries and chart the results.</li>
+  </ol>
+
+
+  <figure>
+    <div class="frame"><img class="zoom" tabindex="0" src="img/sociolla-erd.jpg" alt="Entity relationship diagram with five tables: Brand, Category, Product, Rating and Engagement" width="1320" height="703"></div>
+    <figcaption><b>Schema, drawn by Genisha and Varendra.</b> Product sits at the center. Each product belongs to one brand and one category, and has one rating record and one engagement record.</figcaption>
+  </figure>
+
+  <h3>Evidence: one of the queries</h3>
+  <p>Repurchase intent by category. <code>NULLIF</code> guards against division by zero, and <code>HAVING</code> drops categories with 100 or fewer respondents so a handful of reviews cannot top the ranking.</p>
+<pre><code>SELECT
+    c.category_default,
+    SUM(e.total_repurchase_yes_count)   AS repurchase_yes,
+    SUM(e.total_repurchase_no_count)    AS repurchase_no,
+    SUM(e.total_repurchase_maybe_count) AS repurchase_maybe,
+    ROUND(SUM(e.total_repurchase_yes_count) * 100.0 / NULLIF(
+        SUM(e.total_repurchase_yes_count + e.total_repurchase_no_count
+        + e.total_repurchase_maybe_count), 0), 2) AS pct_repurchase_yes
+FROM Category c
+JOIN Product p    ON c.category_id = p.category_id
+JOIN Engagement e ON p.product_id  = e.product_id
+GROUP BY c.category_id, c.category_default
+HAVING SUM(e.total_repurchase_yes_count + e.total_repurchase_no_count
+    + e.total_repurchase_maybe_count) > 100
+ORDER BY pct_repurchase_yes DESC
+LIMIT 15;</code></pre>
+
+  <h3>Results</h3>
+  <p><b>Share of respondents who would repurchase, top 5 categories</b></p>
+  <div class="bars" role="img" aria-label="Bar chart of repurchase intent: Hand Wash 85.30 percent, Cotton Pad 84.79, False Eyelashes 83.31, Cake Foundation 83.21, Pads 82.49">
+    <div class="bar"><span>Hand Wash</span><span class="track"><span class="fill" style="display:block;width:85.30%"></span></span><span class="v">85.30%</span></div>
+    <div class="bar"><span>Cotton Pad</span><span class="track"><span class="fill" style="display:block;width:84.79%"></span></span><span class="v">84.79%</span></div>
+    <div class="bar"><span>False Eyelashes</span><span class="track"><span class="fill" style="display:block;width:83.31%"></span></span><span class="v">83.31%</span></div>
+    <div class="bar"><span>Cake Foundation</span><span class="track"><span class="fill" style="display:block;width:83.21%"></span></span><span class="v">83.21%</span></div>
+    <div class="bar"><span>Pads</span><span class="track"><span class="fill" style="display:block;width:82.49%"></span></span><span class="v">82.49%</span></div>
+  </div>
+  <p class="note">Bars are drawn on a 0–100% scale.</p>
+
+  <p><b>Most wishlisted categories</b></p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Category</th><th class="num">Products</th><th class="num">Wishlists</th><th class="num">Reviews</th><th class="num">Avg rating</th></tr></thead>
+    <tbody>
+      <tr><td>Toner</td><td class="num">290</td><td class="num">474,665</td><td class="num">116,275</td><td class="num">3.89</td></tr>
+      <tr><td>Face Serum</td><td class="num">436</td><td class="num">347,006</td><td class="num">82,413</td><td class="num">3.93</td></tr>
+      <tr><td>Face Cream &amp; Lotion</td><td class="num">405</td><td class="num">321,108</td><td class="num">95,919</td><td class="num">3.80</td></tr>
+      <tr><td>Sunscreen</td><td class="num">237</td><td class="num">262,352</td><td class="num">96,794</td><td class="num">3.48</td></tr>
+      <tr><td>Sheet Mask</td><td class="num">342</td><td class="num">201,724</td><td class="num">102,003</td><td class="num">3.72</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>The single most reviewed product is Garnier Micellar Water with 21,536 reviews.</li>
+    <li>COSRX holds three of the five most wishlisted products, led by Low pH Good Morning Cleanser (58,568 wishlists).</li>
+    <li>Premium products keep good ratings: SK-II Facial Treatment Essence costs about Rp3.05 million and is rated 4.45 from 910 reviews.</li>
+  </ul>
+
+  <div class="pair calm">
+  <figure>
+    <div class="frame"><img class="zoom" tabindex="0" src="img/sociolla-dashboard.jpg" alt="Web dashboard home page showing totals for brands, categories, products, ratings and engagement, with a bar chart and a donut chart" width="1400" height="796"></div>
+    <figcaption><b>Dashboard by Genisha and Varendra, home page.</b> Totals come straight from the database tables.</figcaption>
+  </figure>
+  <figure>
+    <div class="frame"><img class="zoom" tabindex="0" src="img/sociolla-repurchase.jpg" alt="Dashboard page running the repurchase query and charting the top categories" width="1400" height="797"></div>
+    <figcaption><b>Dashboard, query page.</b> The repurchase query above, run from the interface and charted.</figcaption>
+  </figure>
+  </div>
+
+  <h3>What a business could do with this</h3>
+  <ul>
+    <li>Prioritize stock and promotion for toner, serum and moisturizer, where wishlist demand is concentrated.</li>
+    <li>Treat everyday essentials such as hand wash and cotton pads as loyalty products, suited to bundles or subscriptions.</li>
+  </ul>
+
+  <h3>Limitations</h3>
+  <ul class="limits">
+    <li>Brand rankings by average rating favor small brands with few reviews. Rankings that set a minimum review count are more trustworthy.</li>
+    <li>Some products show a recommendation rate above 100% because a shopper can recommend a product more than once. That metric should not be read as a true percentage.</li>
+    <li>High-priced products with good ratings show a correlation, not proof that price causes quality.</li>
+    <li>The data is a snapshot of listings, not sales, so wishlists and reviews stand in for demand.</li>
+  </ul>
+  </details>
+</section>
+
+<section class="case tone-blue" id="energy">
+  <div class="case-head">
+    <span class="case-no">Case study 02</span>
+    <h2>Electricity demand forecasting and volatility analysis</h2>
+    <ul class="meta"><li>Python</li><li>statsmodels</li><li>arch</li><li>Forecasting Methods</li><li>Jun 2026</li><li>Group of 4</li></ul>
+  </div>
+
+  <div class="brief">
+  <div class="bq">
+  <h3>Question</h3>
+  <p class="question">How much electricity will be consumed each day over the next two weeks, and how uncertain is that number?</p>
+  <p>A grid operator needs both answers. The forecast sets the plan, and the uncertainty sets how much reserve capacity to keep ready.</p>
+
+  </div>
+  <div class="bf">
+  <h3>What we found</h3>
+  <div class="finding"><p><strong>Demand follows a strong weekly rhythm, and its uncertainty changes over time.</strong> Forecast weekday demand is about 6,250 to 6,630 MW against 5,550 to 5,940 MW on weekends. A volatility model on top of the forecast gives prediction intervals that widen and narrow with recent turbulence.</p></div>
+
+  </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>2,629</b><span>daily observations, 2019 to Mar 2026</span></div>
+    <div class="stat"><b>10</b><span>variables (consumption, production, sources)</span></div>
+    <div class="stat"><b>0</b><span>missing values or duplicates</span></div>
+    <div class="stat"><b>7 days</b><span>seasonal period</span></div>
+  </div>
+  <div class="role"><p><b>My part.</b> I did the model diagnostics and the forecasting: residual plots, ACF and PACF, Ljung-Box, Shapiro-Wilk and ARCH-LM tests, then the 14-day mean and volatility forecasts and their combined intervals. I wrote those two chapters of the report.</p></div>
+  <p class="credit"><b>Team (Group I).</b> Inshovi Amiroh, Ardelia Citta Azizah, Rafi Aulia.</p>
+  <details class="deep">
+  <summary><span>Open the full analysis</span><small>data, method, evidence and limitations</small></summary>
+  <h3>The data</h3>
+  <p>Source: the public Kaggle dataset “Hourly Electricity Consumption and Production in Romania”, aggregated from hourly readings to daily averages.</p>
+
+  <figure>
+    <div class="frame"><img class="zoom" tabindex="0" src="img/energy-series.jpg" alt="Line chart of daily electricity consumption from 2019 to 2026 showing repeating yearly and weekly patterns" width="1246" height="547"></div>
+    <figcaption><b>Daily consumption.</b> The series is stable around its mean but has calm and turbulent stretches, which is the pattern a volatility model is built for.</figcaption>
+  </figure>
+
+  <h3>Approach</h3>
+  <ol>
+    <li><b>Explore.</b> Checked structure, missing values, duplicates, outliers and correlations between energy sources.</li>
+    <li><b>Test.</b> The ADF test rejected a unit root (statistic −4.20, p = 0.0007), so no differencing was needed. ACF spikes at lags 7, 14 and 21 confirmed weekly seasonality.</li>
+    <li><b>Model the mean.</b> Compared five SARIMA candidates and chose SARIMA(1,0,1)(1,0,1)<sub>7</sub>: close to the best AIC and BIC with fewer parameters, all of them significant.</li>
+    <li><b>Model the variance.</b> An ARCH-LM test on the residuals was strongly significant (statistic 1,411.85, p &lt; 0.001), so we fitted GARCH models to the residuals and selected GARCH(2,2) by AIC.</li>
+    <li><b>Diagnose and forecast.</b> Checked residuals, then produced 14-day forecasts with intervals that combine both models.</li>
+  </ol>
+
+
+  <h3>Evidence</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>SARIMA parameter</th><th class="num">Estimate</th><th>Reading</th></tr></thead>
+    <tbody>
+      <tr><td>AR(1)</td><td class="num">0.8827</td><td>Today strongly follows yesterday</td></tr>
+      <tr><td>MA(1)</td><td class="num">−0.1007</td><td>Small correction from yesterday’s error</td></tr>
+      <tr><td>Seasonal AR(1), lag 7</td><td class="num">0.9988</td><td>Very strong link to the same weekday last week</td></tr>
+      <tr><td>Seasonal MA(1), lag 7</td><td class="num">−0.8218</td><td>Large correction from last week’s error</td></tr>
+    </tbody>
+  </table></div>
+
+  <figure>
+    <div class="frame"><img class="zoom" tabindex="0" src="img/energy-residuals.jpg" alt="Three stacked plots: SARIMA residuals over time, and their ACF and PACF, which stay close to zero" width="1400" height="996"></div>
+    <figcaption><b>Residual diagnostics.</b> Residuals center on zero, but their spread is not constant. That changing spread is what the GARCH step models.</figcaption>
+  </figure>
+  <figure>
+    <div class="frame"><img class="zoom" tabindex="0" src="img/energy-forecast.jpg" alt="Line chart of recent consumption followed by a 14-day forecast with a shaded prediction interval" width="1400" height="552"></div>
+    <figcaption><b>14-day forecast, 15 to 28 March 2026.</b> The red line is the SARIMA forecast. The two shaded bands compare the SARIMA-only interval with the combined SARIMA–GARCH interval.</figcaption>
+  </figure>
+
+  <div class="tablewrap"><table>
+    <thead><tr><th>Date</th><th class="num">Forecast (MW)</th><th class="num">Volatility (MW)</th><th class="num">Lower 95%</th><th class="num">Upper 95%</th></tr></thead>
+    <tbody>
+      <tr><td>Sun 15 Mar</td><td class="num">5,244.64</td><td class="num">210.14</td><td class="num">4,582.67</td><td class="num">5,906.61</td></tr>
+      <tr><td>Mon 16 Mar</td><td class="num">6,368.09</td><td class="num">244.11</td><td class="num">5,556.16</td><td class="num">7,180.02</td></tr>
+      <tr><td>Tue 17 Mar</td><td class="num">6,395.65</td><td class="num">231.58</td><td class="num">5,525.39</td><td class="num">7,265.90</td></tr>
+      <tr><td>Wed 18 Mar</td><td class="num">6,358.56</td><td class="num">248.02</td><td class="num">5,421.46</td><td class="num">7,295.65</td></tr>
+      <tr><td>Thu 19 Mar</td><td class="num">6,363.15</td><td class="num">245.08</td><td class="num">5,393.46</td><td class="num">7,332.84</td></tr>
+      <tr><td>Fri 20 Mar</td><td class="num">6,253.15</td><td class="num">254.06</td><td class="num">5,249.07</td><td class="num">7,257.23</td></tr>
+      <tr><td>Sat 21 Mar</td><td class="num">5,819.00</td><td class="num">254.82</td><td class="num">4,795.49</td><td class="num">6,842.49</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">First 7 of 14 forecast days, combined SARIMA–GARCH interval.</p>
+
+  <h3>What an operator could do with this</h3>
+  <ul>
+    <li>Plan for weekday demand several hundred MW above weekend demand.</li>
+    <li>Size reserve capacity from the upper bound of the interval, which moves with recent volatility, instead of a fixed margin.</li>
+  </ul>
+
+  <h3>Limitations</h3>
+  <ul class="limits">
+    <li>The Ljung-Box test still rejects at lags 7, 14 and 21, so the SARIMA residuals keep some autocorrelation. The data has more than one seasonal cycle and the model captures only the weekly one.</li>
+    <li>In GARCH(2,2) only the first ARCH term is statistically significant. A simpler variance model would likely do as well.</li>
+    <li>Residuals are heavier-tailed than a Normal distribution, so the 95% intervals may be too narrow on extreme days.</li>
+    <li>The model uses past consumption only. Temperature and public holidays would likely improve it.</li>
+  </ul>
+  </details>
+</section>
+
+<section class="case tone-green" id="sp500">
+  <div class="case-head">
+    <span class="case-no">Case study 03</span>
+    <h2>S&amp;P 500 return simulation and random number generator evaluation</h2>
+    <ul class="meta"><li>Python</li><li>NumPy</li><li>SciPy</li><li>Statistical Computing</li><li>Oct 2026</li><li>Group of 5</li></ul>
+  </div>
+
+  <div class="brief">
+  <div class="bq">
+  <h3>Question</h3>
+  <p class="question">If you simulate daily stock returns, how far can you trust the result?</p>
+  <p>Two things can go wrong: the random number generator underneath the simulation, and the statistical model on top of it. This project tests both against ten years of real index data.</p>
+
+  </div>
+  <div class="bf">
+  <h3>What we found</h3>
+  <div class="finding"><p><strong>The generator was fine. The model was the weak point.</strong> Mersenne Twister passed every randomness check, but real returns have far heavier tails than a Normal distribution (excess kurtosis 15.76), so a Normal simulation understates the chance of extreme days.</p></div>
+
+  </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>2,516</b><span>daily log returns, Dec 2014 to Dec 2024</span></div>
+    <div class="stat"><b>503</b><span>five-day trading blocks</span></div>
+    <div class="stat"><b>0.0113</b><span>daily standard deviation</span></div>
+    <div class="stat"><b>53.7%</b><span>of days the index rose</span></div>
+  </div>
+  <p class="credit"><b>Team.</b> Moza Adisa, Suci Hajra, Reksa Utami, Najwa Syakila Ramadani.</p>
+  <details class="deep">
+  <summary><span>Open the full analysis</span><small>data, method, evidence and limitations</small></summary>
+  <h3>The data</h3>
+  <p>Source: S&amp;P 500 index closing values from a public Kaggle dataset. No missing values or duplicate dates.</p>
+
+  <figure>
+    <div class="frame"><img class="zoom" tabindex="0" src="img/sp500-series.jpg" alt="Two charts: the S&P 500 index rising from about 2,000 to 6,000, and daily log returns with a large spike in March 2020" width="1400" height="925"></div>
+    <figcaption><b>Index level and daily log returns.</b> Returns cluster into calm and turbulent periods, most visibly in March 2020.</figcaption>
+  </figure>
+
+  <h3>Approach</h3>
+  <ol>
+    <li><b>Describe.</b> Computed log returns and counted up-days in each five-day block.</li>
+    <li><b>Simulate.</b> Generated uniform random numbers with Mersenne Twister, turned them into Normal returns with the polar method, and into weekly up-day counts with the inverse-transform method for a Binomial(5, 0.537).</li>
+    <li><b>Compare generators.</b> Ran the same simulation with three linear congruential generators of different quality.</li>
+    <li><b>Check reproducibility.</b> Repeated runs with the same seed, then with 30 different seeds at three sample sizes.</li>
+    <li><b>Test fit.</b> Kolmogorov-Smirnov tests, chi-square tests and Q-Q plots for the generator, the simulated sample and the real data.</li>
+  </ol>
+
+
+  <h3>Evidence</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Check</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Weak generator (LCG, modulus 16)</td><td>Only 8 distinct values. Simulated mean −0.684 where 0 was expected, and a bigger sample did not fix it.</td></tr>
+      <tr><td>Mersenne Twister uniformity</td><td>Mean off by 0.000512 from theory, lag-1 correlation −0.004.</td></tr>
+      <tr><td>Speed</td><td>Mersenne Twister ran about 36 times faster than a loop-based LCG.</td></tr>
+      <tr><td>Same seed, three runs</td><td>Identical output every time.</td></tr>
+      <tr><td>Up-days per week vs Binomial(5, 0.537)</td><td>Consistent with the model (chi-square p = 0.058).</td></tr>
+      <tr><td>Real returns vs Normal</td><td>Rejected. Skewness −0.811, excess kurtosis 15.76.</td></tr>
+    </tbody>
+  </table></div>
+
+  <figure>
+    <div class="frame"><img class="zoom" tabindex="0" src="img/sp500-generators.jpg" alt="Log-scale line chart of simulation error against sample size for four generators. Two good generators fall toward zero while two weak ones stay flat" width="1400" height="770"></div>
+    <figcaption><b>Error by generator and sample size.</b> Good generators improve as the sample grows. Weak ones stay wrong however much data you draw.</figcaption>
+  </figure>
+  <figure>
+    <div class="frame"><img class="zoom" tabindex="0" src="img/sp500-qq.jpg" alt="Two Q-Q plots. Simulated returns follow the straight line. Real returns bend away from it at both ends" width="1400" height="576"></div>
+    <figcaption><b>Q-Q plots against a Normal distribution.</b> Simulated returns (left) sit on the line. Real returns (right) bend away at both ends: those are the fat tails.</figcaption>
+  </figure>
+
+  <h3>Why it matters</h3>
+  <ul>
+    <li>Risk estimates built on a Normal assumption will understate large losses. A heavier-tailed model is the safer choice for anything that depends on extremes.</li>
+    <li>Record the seed, the generator and the library version with every simulation so results can be reproduced.</li>
+  </ul>
+
+  <h3>Limitations</h3>
+  <ul class="limits">
+    <li>Returns were simulated as independent draws. Real returns show volatility clustering, which this model ignores.</li>
+    <li>One index over one decade. Results may differ for single stocks or other periods.</li>
+  </ul>
+  </details>
+</section>
+
+<section class="case tone-butter" id="gizi">
+  <div class="case-head">
+    <span class="case-no">Case study 04</span>
+    <h2>Two faces of nutrition in West Java</h2>
+    <ul class="meta"><li>Python</li><li>scikit-learn</li><li>SciPy</li><li>Multivariate Analysis</li><li>Apr 2026</li><li>Individual</li></ul>
+  </div>
+
+  <div class="brief">
+  <div class="bq">
+  <h3>Question</h3>
+  <p class="question">Do people in West Java’s cities and regencies eat differently, and does poverty explain it?</p>
+  <p>This one is all mine, from the analysis to the infographic design. It is the project that best shows the two things I like doing together: statistics and visual communication.</p>
+
+  </div>
+  <div class="bf">
+  <h3>What we found</h3>
+  <div class="finding"><p><strong>The higher the poverty rate, the lower the quality of the diet.</strong> One principal component captures 90.9% of the variation in six nutrition indicators, and it lines poverty and grain dependence up against calories, protein and animal-source food.</p></div>
+
+  </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>27</b><span>regencies and cities in West Java</span></div>
+    <div class="stat"><b>6</b><span>indicators of diet and poverty</span></div>
+    <div class="stat"><b>18 vs 9</b><span>regencies compared with cities</span></div>
+    <div class="stat"><b>2023</b><span>SUSENAS household survey year</span></div>
+  </div>
+  <details class="deep">
+  <summary><span>Open the full analysis</span><small>data, method, evidence and limitations</small></summary>
+  <h3>The data</h3>
+  <p>Sources: BPS West Java consumption patterns (SUSENAS, March 2023) and the National Food Agency’s per-capita protein figures.</p>
+
+  <h3>Approach</h3>
+  <ol>
+    <li><b>Reduce.</b> PCA on standardized indicators. Only the first component passes the Kaiser criterion (eigenvalue 5.66).</li>
+    <li><b>Group.</b> K-means with two clusters separates 17 lower-nutrition areas from 10 better-nourished ones (silhouette score 0.566).</li>
+    <li><b>Test.</b> Hotelling’s T² compares the mean nutrition profile of regencies and cities.</li>
+    <li><b>Design.</b> Turned the results into a single infographic for a general audience.</li>
+  </ol>
+
+  <h3>Evidence</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Check</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Variance explained by PC1</td><td>90.9%, rising to 97.1% with PC2</td></tr>
+      <tr><td>Hotelling’s T², regencies vs cities</td><td>T² = 81.129 against a critical value of 19.492 (p = 0.000021)</td></tr>
+      <tr><td>Calories per person per day</td><td>1,907 kcal in regencies, 2,027 kcal in cities</td></tr>
+      <tr><td>Gap between cities and regencies</td><td>About 120 kcal and 7.6 g of protein per person per day</td></tr>
+    </tbody>
+  </table></div>
+
+  <figure class="poster">
+    <div class="frame"><img class="zoom" tabindex="0" src="img/gizi-infographic.jpg" alt="Infographic in Indonesian titled Dua Wajah Gizi Jawa Barat, with a scree plot, boxplots comparing regencies and cities, cluster profiles and summary tables" width="1200" height="1636"></div>
+    <figcaption><b>The finished infographic.</b> Analysis, charts, layout and illustration choices are my own work.</figcaption>
+  </figure>
+
+  <h3>Limitations</h3>
+  <ul class="limits">
+    <li>27 areas is a small sample, and the two groups are unequal in size (18 and 9).</li>
+    <li>The link between poverty and diet is an association across areas. It does not show what happens inside any one household.</li>
+  </ul>
+  </details>
+</section>
+  </section>
+
+  <section class="sec" id="more">
+    <svg class="deco dg gr g1" viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="24" r="13"/><circle cx="30" cy="24" r="13"/></svg><svg class="deco dg gl g3" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="9" r="4.5"/><circle cx="11" cy="38" r="4.5"/><circle cx="37" cy="38" r="4.5"/><path d="M21 13 13 34M27 13l8 21"/></svg>
+    <svg class="deco ds" viewBox="0 0 48 48" aria-hidden="true"><circle cx="20" cy="20" r="13"/><path d="M30 30 43 43"/><path d="M14 23v-4M20 23v-8M26 23v-6"/></svg>
+    <div class="sechead">
+      <div><span class="label">More projects</span><h2>More things I’ve<br>worked on</h2></div>
+      <p>Six more, in short. Filter by what you care about. Two are still in progress, so I report what is done so far and nothing more.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter projects">
+      <button class="chipb pf" type="button" data-f="all" aria-pressed="true">All 6</button>
+      <button class="chipb pf" type="button" data-f="biz" aria-pressed="false">Customers and business</button>
+      <button class="chipb pf" type="button" data-f="model" aria-pressed="false">Statistical modeling</button>
+      <button class="chipb pf" type="button" data-f="story" aria-pressed="false">Infographics</button>
+      <button class="chipb pf" type="button" data-f="wip" aria-pressed="false">In progress</button>
+    </div>
+    <div class="more">
+      <article class="mcard" data-t="biz wip">
+        <span class="tag wip">In progress · Nov 2026</span>
+        <h3>What are TIX ID users complaining about?</h3>
+        <p>Sentiment and topic classification of 77,488 Google Play reviews from April 2018 to December 2024. 76.2% are five-star, so the classes are heavily imbalanced. Topics cover booking, payment, promos and app issues.</p>
+        <details><summary>My part</summary><p>The data overview and the labeling design. Group project · Python · Deep Learning.</p></details>
+      </article>
+      <article class="mcard" data-t="story model">
+        <span class="tag">Completed · Apr 2026</span>
+        <h3>Literate, but not yet equal</h3>
+        <p>Education gaps across 27 regions of West Java. Each extra year of average schooling goes with 2.99 more points on the Human Development Index (R² = 95.5%). Bandung averages 11.44 years of schooling, Cianjur 6.72.</p>
+        <details><summary>My part</summary><p>Individual project: OLS regression in Python, then an infographic and a short videographic. Data from BPS West Java, 2024. Statistical Methods Practicum.</p></details>
+      </article>
+      <article class="mcard" data-t="story">
+        <span class="tag">Competition entry · Jun 2026</span>
+        <h3>Industry at a crossroads</h3>
+        <p>Infographic for the SATRIA DATA 2026 Statistics Infographic Competition. Manufacturing was the only sector whose energy intensity got worse in 2018–2022 (up 48.9%), while the renewable share fell from 10.52% to 7.83% against a 23% target.</p>
+        <details><summary>Team and data</summary><p>Team FAYA Data Crew, three members. Data from BPS and the Ministry of Environment and Forestry.</p></details>
+      </article>
+      <article class="mcard" data-t="model wip">
+        <span class="tag wip">In progress · Nov 2026</span>
+        <h3>Does literacy go with national income?</h3>
+        <p>Categorical analysis of 191 countries. 45.8% of high-literacy countries have a high GDP per capita against 1.4% of the rest (odds ratio 60.75, 95% CI 8.17 to 451.80). Inside each continent the link is no longer significant, which points to continent as a confounder.</p>
+        <details><summary>My part and team</summary><p><b>My part:</b> cleaned data and shared code, plus the chapter on contingency tables and association. <b>Team:</b> Callysta Nadira Suhaidi, Amirah Jalwa Irdina, Vesia Akiva Maseo. Python · Categorical Data Analysis.</p></details>
+      </article>
+      <article class="mcard" data-t="model">
+        <span class="tag">Completed · Nov 2025</span>
+        <h3>Screen time, sleep and mental wellness</h3>
+        <p>Multiple regression on a 400-row dataset relating screen time, sleep and productivity to mental wellness. Compared additive, interaction and non-linear models with F-tests, t-tests and diagnostic checks.</p>
+        <details><summary>My part</summary><p>Background, hypotheses, and the full data exploration with histograms, boxplots, pair plots and heatmaps. Group project · Python, R · Linear Models.</p></details>
+      </article>
+      <article class="mcard" data-t="model">
+        <span class="tag">Completed · Mar 2026</span>
+        <h3>Fertilizer, spacing and rice yield</h3>
+        <p>A two-factor experiment analyzed with two-way ANOVA: three nitrogen doses and two planting distances with three replications (18 plots), including the interaction and an LSD follow-up test.</p>
+        <details><summary>Details</summary><p>Worked by hand and checked in R. Experimental Design.</p></details>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec" id="quiz">
+    <svg class="deco dg gl g2" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 18l20 22M34 18 14 40M12 9h24"/></svg>
+    <svg class="deco ds" viewBox="0 0 48 48" aria-hidden="true"><circle cx="13" cy="13" r="6"/><circle cx="35" cy="35" r="6"/><path d="M38 8 10 40"/></svg>
+    <div class="sechead">
+      <div><span class="label">A two-minute break</span><h2>Test your stats intuition</h2></div>
+      <p>Seven classic probability puzzles. Guess first, then see how far intuition is from the maths.</p>
+    </div>
+    <div class="game" id="game">
+      <div class="gtop"><span class="label">Question</span><span class="gcount" id="gcount">1 / 7</span></div>
+      <h3 id="gq">Loading a question</h3>
+      <div class="gauge" aria-hidden="true"><div class="gfill" id="gfill"></div><div class="gtruth" id="gtruth"></div></div>
+      <div class="gslide"><input type="range" id="gin" min="0" max="100" step="1" value="50" aria-label="Your guess in percent"><output id="gval">50%</output></div>
+      <p class="gres" id="gres">Drag the slider, then lock in your guess.</p>
+      <div class="row"><button class="btn" id="gbtn" type="button">Lock in my guess</button><span class="gscore" id="gscore"></span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="experience">
+    <svg class="deco dg gr g2" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40l3-11L33 7l8 8-22 22zM28 12l8 8M8 40l6-2"/></svg><svg class="deco dg gl g3" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="6" width="36" height="36" rx="4"/><path d="M18 6v36M30 6v36M6 18h36M6 30h36"/><path d="M9 9h6v6H9zM21 21h6v6h-6zM33 33h6v6h-6zM33 9h6v6h-6z" fill="#fff" stroke="none"/></svg>
+    <svg class="deco ds" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 6v36h36"/><path d="M11 33 20 24l7 5 13-16"/></svg>
+    <div class="sechead">
+      <div><span class="label">Experience</span><h2>Teaching, leading<br>and designing</h2></div>
+      <p>Where I have worked with people as well as with data. Use the filters to see one side at a time.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter experience">
+      <button class="chipb xf" type="button" data-f="all" aria-pressed="true">Everything</button>
+      <button class="chipb xf" type="button" data-f="data" aria-pressed="false">Data and teaching</button>
+      <button class="chipb xf" type="button" data-f="lead" aria-pressed="false">Leadership</button>
+      <button class="chipb xf" type="button" data-f="design" aria-pressed="false">Design</button>
+    </div>
+    <div class="xpgrid">
+      <ul class="xp">
+        <li data-t="data"><span class="when">Aug 2026 – now</span><div><b>Assistant Lecturer, Sampling and Survey Design</b><p>Universitas Indonesia. Supporting a theory course on sampling designs.</p></div></li>
+        <li data-t="lead design data"><span class="when">Jan 2026 – now</span><div><b>Co-Leader, Creative Media</b><p>Pojok Statistik UI. Coordinating the team behind statistics infographics and videos, and checking each post for statistical accuracy.</p></div></li>
+        <li data-t="design"><span class="when">Jan – May 2026</span><div><b>Member, UI/UX Design</b><p>Google Developer Groups on Campus Universitas Indonesia.</p></div></li>
+        <li data-t="lead design"><span class="when">Nov 2024 – Feb 2026</span><div><b>Deputy Head, Multimedia and Entertainment</b><p>Himpunan Mahasiswa Departemen Matematika FMIPA UI. Started as intern staff, became staff, then deputy head. Ran workflow and quality checks for the division’s content.</p></div></li>
+        <li data-t="lead data"><span class="when">Sep – Dec 2025</span><div><b>Co-Leader, Research and Development</b><p>The 13th UI Art War. Designed the event survey, analyzed the responses and reported recommendations to the committee.</p></div></li>
+        <li data-t="lead design"><span class="when">Jun – Nov 2025</span><div><b>Team Lead, Design Division</b><p>LOGIKA UI. Led event design from proposals and Instagram content to merchandise.</p></div></li>
+        <li data-t="other"><span class="when">Dec 2024 – Feb 2025</span><div><b>Staff, Medical Division</b><p>Math League 2025.</p></div></li>
+      </ul>
+    </div>
+    <div class="skills">
+      <div><h3>Languages</h3><p>SQL (MySQL, SQLite), Python (pandas, NumPy, SciPy, statsmodels, scikit-learn), R (tidyverse, R Markdown)</p></div>
+      <div><h3>Analysis</h3><p>Data cleaning, exploratory analysis, regression, time series forecasting, simulation, multivariate methods, survey sampling</p></div>
+      <div><h3>Design</h3><p>Infographics and data storytelling, Figma, Canva</p></div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2>Let’s talk data.</h2>
+    <p>I’m open to data analyst opportunities. Full reports and code for every project here are available on request.</p>
+    <div class="ways">
+      <a class="btn" href="https://www.linkedin.com/in/andrearfelia">LinkedIn <span class="arr">→</span></a>
+      <button class="btn" id="copy" type="button">Copy my email</button>
+    </div>
+    <span class="mail">andreafeliaa@gmail.com</span>
+  </section>
+
+  <footer><p>Coursework projects from the Statistics program at Universitas Indonesia. Figures and numbers come from the project reports and notebooks. Group work is credited by name in each case study, and each one states which part I did.</p></footer>
+</div>
+
+<div id="mag" aria-hidden="true"></div>
+<div id="lb" role="dialog" aria-modal="true" aria-label="Enlarged figure"><button class="btn ghost" type="button" id="lbx">Close</button><img alt=""></div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+
+  /* project tabs, routed on the hash so a link can open one case study */
+  var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  var ids = tabs.map(function (t) { return t.dataset.target; });
+  function show(id, scroll) {
+    if (ids.indexOf(id) < 0) return false;
+    ids.forEach(function (x) { document.getElementById(x).classList.toggle('active', x === id); });
+    tabs.forEach(function (t) { t.setAttribute('aria-selected', t.dataset.target === id ? 'true' : 'false'); });
+    if (scroll) document.getElementById('work').scrollIntoView();
+    return true;
+  }
+  tabs.forEach(function (t) { t.addEventListener('click', function () { show(t.dataset.target, false); try { history.replaceState(null, '', '#' + t.dataset.target); } catch (e) {} }); });
+  function route() { var h = location.hash.slice(1); if (!show(h, true)) { if (!document.querySelector('section.case.active')) show(ids[0], false); } }
+  window.addEventListener('hashchange', route); show(ids[0], false); if (location.hash) route();
+
+  /* count-up numbers */
+  if (!reduce) [].forEach.call(document.querySelectorAll('[data-count]'), function (el) {
+    var end = +el.dataset.count, t0 = null;
+    function step(t) { if (!t0) t0 = t; var p = Math.min(1, (t - t0) / 900); el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))).toLocaleString('en-US'); if (p < 1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  });
+
+  /* stats intuition quiz */
+  var Q = [
+    { q: 'In a room of 23 people, how likely is it that two of them share a birthday?', a: 50.7, t: 'There are 253 possible pairs, far more than it feels like. Intuition counts people; probability counts pairs.' },
+    { q: 'A disease affects 1% of people. The test catches 99% of cases but also flags 5% of healthy people. You test positive. How likely are you ill?', a: 16.7, t: 'Healthy people vastly outnumber sick ones, so most positives are false alarms. Always ask for the base rate.' },
+    { q: 'You run 20 A/B tests where nothing really changed, at a 5% significance level. How likely is at least one “significant” result?', a: 64.2, t: 'Test enough things and something will look like a win. This is why analysts correct for multiple comparisons.' },
+    { q: 'Three doors, one prize. You pick one, the host opens an empty door among the others. How often does switching win?', a: 66.7, t: 'Your first pick is right one time in three, so the other door wins the remaining two. New information changes the odds.' },
+    { q: 'For data that follows a normal curve, what share of values lies within one standard deviation of the mean?', a: 68.3, t: 'About 95% lie within two and 99.7% within three. It is the quickest sanity check for spotting outliers.' },
+    { q: 'Flip a fair coin 10 times. How likely are exactly 5 heads?', a: 24.6, t: 'The most likely outcome still happens only one time in four. “Expected” does not mean “usual”.' },
+    { q: 'A family has two children and at least one is a boy. How likely is it that both are boys?', a: 33.3, t: 'Boy-boy, boy-girl and girl-boy are equally likely, and only one of the three is two boys. How a question is framed changes the answer.' }
+  ];
+
+  var gi = 0, locked = false, errs = [];
+  var gq = document.getElementById('gq'), gin = document.getElementById('gin'), gval = document.getElementById('gval'), gfill = document.getElementById('gfill'),
+      gtruth = document.getElementById('gtruth'), gres = document.getElementById('gres'), gbtn = document.getElementById('gbtn'),
+      gcount = document.getElementById('gcount'), gscore = document.getElementById('gscore');
+  function paint() { gval.textContent = gin.value + '%'; gfill.style.width = gin.value + '%'; }
+  function ask() {
+    locked = false; gq.textContent = Q[gi].q; gcount.textContent = (gi + 1) + ' / ' + Q.length; gin.disabled = false; gin.value = 50; paint();
+    gtruth.style.opacity = 0; gtruth.style.left = '0%'; gres.textContent = 'Drag the slider, then lock in your guess.'; gbtn.textContent = 'Lock in my guess';
+  }
+  gin.addEventListener('input', paint);
+  gbtn.addEventListener('click', function () {
+    if (!locked) {
+      locked = true; gin.disabled = true; var d = Math.abs(+gin.value - Q[gi].a); errs.push(d);
+      gtruth.style.opacity = 1; gtruth.style.left = Q[gi].a + '%';
+      var verdict = d <= 3 ? 'Spot on!' : d <= 10 ? 'Close.' : d <= 25 ? 'Not bad.' : 'Surprise!';
+      gres.innerHTML = '<b>' + verdict + ' The answer is ' + Q[gi].a + '%.</b> You were off by ' + d.toFixed(1) + ' points. ' + Q[gi].t;
+      var avg = errs.reduce(function (x, y) { return x + y; }, 0) / errs.length;
+      gscore.textContent = 'Average miss so far: ' + avg.toFixed(1) + ' points over ' + errs.length + (errs.length > 1 ? ' guesses' : ' guess');
+      gbtn.textContent = gi === Q.length - 1 ? 'Play again' : 'Next question';
+    } else { gi = (gi + 1) % Q.length; if (gi === 0) { errs = []; gscore.textContent = ''; } ask(); }
+  });
+  ask();
+
+  /* project filter */
+  var pf = [].slice.call(document.querySelectorAll('.pf')), cards = [].slice.call(document.querySelectorAll('.mcard'));
+  pf.forEach(function (c) { c.addEventListener('click', function () {
+    pf.forEach(function (x) { x.setAttribute('aria-pressed', x === c ? 'true' : 'false'); });
+    cards.forEach(function (m) { m.classList.toggle('hide', c.dataset.f !== 'all' && m.dataset.t.split(' ').indexOf(c.dataset.f) < 0); });
+  }); });
+
+  /* about chips */
+  var facts = [].slice.call(document.querySelectorAll('.fact')), fo = document.getElementById('factout');
+  facts.forEach(function (f) { f.setAttribute('aria-pressed', 'false'); f.addEventListener('click', function () {
+    facts.forEach(function (x) { x.setAttribute('aria-pressed', x === f ? 'true' : 'false'); }); fo.textContent = f.dataset.more; document.getElementById('apps').hidden = !f.dataset.apps;
+  }); });
+
+  /* experience filters */
+  var chips = [].slice.call(document.querySelectorAll('.xf')), rows = [].slice.call(document.querySelectorAll('.xp li'));
+  chips.forEach(function (c) { c.addEventListener('click', function () {
+    chips.forEach(function (x) { x.setAttribute('aria-pressed', x === c ? 'true' : 'false'); });
+    rows.forEach(function (r) { r.classList.toggle('dim', c.dataset.f !== 'all' && r.dataset.t.split(' ').indexOf(c.dataset.f) < 0); });
+  }); });
+
+  /* figure zoom */
+  var lb = document.getElementById('lb'), lbi = lb.querySelector('img'), last = null;
+  function open(img) { last = img; lbi.src = img.src; lbi.alt = img.alt; lb.classList.add('open'); document.getElementById('lbx').focus(); }
+  function close() { lb.classList.remove('open'); if (last) last.focus(); }
+  document.addEventListener('click', function (e) { if (e.target.classList && e.target.classList.contains('zoom')) open(e.target); else if (lb.classList.contains('open') && (e.target === lb || e.target === lbi || e.target.id === 'lbx')) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && lb.classList.contains('open')) close(); if ((e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.classList.contains('zoom')) { e.preventDefault(); open(document.activeElement); } });
+
+  /* magnifying glass over figures (mouse only) */
+  var mag = document.getElementById('mag');
+  if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.addEventListener('mousemove', function (e) {
+      var im = e.target;
+      if (!im.classList || !im.classList.contains('zoom') || lb.classList.contains('open')) { mag.style.display = 'none'; return; }
+      var r = im.getBoundingClientRect(), z = 2.2, d = 190;
+      mag.style.display = 'block'; mag.style.left = (e.clientX - d / 2) + 'px'; mag.style.top = (e.clientY - d / 2) + 'px';
+      mag.style.backgroundImage = 'url("' + im.src + '")'; mag.style.backgroundSize = (r.width * z) + 'px ' + (r.height * z) + 'px';
+      mag.style.backgroundPosition = (-(e.clientX - r.left) * z + d / 2) + 'px ' + (-(e.clientY - r.top) * z + d / 2) + 'px';
+    });
+    document.addEventListener('scroll', function () { mag.style.display = 'none'; }, true);
+  }
+
+  /* folders tilt toward the pointer */
+  [].forEach.call(document.querySelectorAll('.file'), function (f) {
+    var fo = f.querySelector('.folder');
+    f.addEventListener('mousemove', function (e) { if (reduce) return; var r = f.getBoundingClientRect();
+      fo.style.setProperty('--ry', (((e.clientX - r.left) / r.width - .5) * 26).toFixed(1) + 'deg'); fo.style.setProperty('--rx', ((.5 - (e.clientY - r.top) / r.height) * 20).toFixed(1) + 'deg'); });
+    f.addEventListener('mouseleave', function () { fo.style.setProperty('--ry', '0deg'); fo.style.setProperty('--rx', '0deg'); });
+  });
+
+  /* copy email */
+  var cp = document.getElementById('copy');
+  cp.addEventListener('click', function () {
+    var done = function (ok) { cp.textContent = ok ? 'Copied!' : 'Email is shown below'; setTimeout(function () { cp.textContent = 'Copy my email'; }, 1800); };
+    try { navigator.clipboard.writeText('andreafeliaa@gmail.com').then(function () { done(true); }, function () { done(false); }); } catch (e) { done(false); }
+  });
+})();
+</script>
+</body>
+</html>
