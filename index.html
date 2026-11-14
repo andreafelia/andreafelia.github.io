@@ -405,14 +405,24 @@ body { overflow-x: clip; }
 .kpi.skill em { font-style: normal; font-weight: 700; font-size: 13.5px; color: #fff; } .kpi.skill em i { font-style: normal; display: inline-block; transition: transform .15s; }
 .kpi.skill:hover em i { transform: translateX(4px); }
 .skill.n1 { --c: var(--pink); } .skill.n2 { --c: var(--teal); } .skill.n3 { --c: var(--butter); } .skill.n4 { --c: var(--sky); }
+
+/* one section at a time: the top menu switches pages */
+.dock a[aria-current="page"] { background: #fff; color: var(--navy); transition: none; }
+.js [data-view].vin { animation: vin .4s ease both; }
+@keyframes vin { from { transform: translateY(14px); } }
+.js .sec, .js .contact { min-height: 62vh; }
+.js .kpis { padding-bottom: 40px; }
+.js .about { padding-top: 150px; }
 </style>
 </head>
 <body>
 
 <div class="dock"><nav aria-label="Main">
+  <a href="#top">Home</a>
   <a href="#about">About Me</a>
   <a href="#work">Case studies</a>
   <a href="#more">More projects</a>
+  <a href="#quiz">Stats quiz</a>
   <a href="#experience">Experience</a>
   <a href="#contact">Contact</a>
 </nav></div>
@@ -998,7 +1008,6 @@ LIMIT 15;</code></pre>
     if (ids.indexOf(id) < 0) return false;
     ids.forEach(function (x) { document.getElementById(x).classList.toggle('active', x === id); });
     tabs.forEach(function (t) { t.setAttribute('aria-selected', t.dataset.target === id ? 'true' : 'false'); });
-    if (scroll) document.getElementById('work').scrollIntoView();
     return true;
   }
   tabs.forEach(function (t) { t.addEventListener('click', function () { show(t.dataset.target, false); try { history.replaceState(null, '', '#' + t.dataset.target); } catch (e) {} }); });
@@ -1101,6 +1110,34 @@ LIMIT 15;</code></pre>
     var done = function (ok) { cp.textContent = ok ? 'Copied!' : 'Email is shown below'; setTimeout(function () { cp.textContent = 'Copy my email'; }, 1800); };
     try { navigator.clipboard.writeText('andreafeliaa@gmail.com').then(function () { done(true); }, function () { done(false); }); } catch (e) { done(false); }
   });
+})();
+</script>
+<script>
+/* pages: only one section is shown at a time; the top menu (and any in-page link) switches between them */
+(function () {
+  var q = function (x) { return document.querySelector(x); };
+  var V = { home: [q('header.hero'), q('nav.jump'), q('section.kpis')], about: [q('#about')], work: [q('#work')], more: [q('#more')], quiz: [q('#quiz')], experience: [q('#experience')], contact: [q('#contact')] };
+  var cases = ['sociolla', 'energy', 'sp500', 'gizi'], cur = null;
+  Object.keys(V).forEach(function (k) { V[k].forEach(function (el) { if (el) el.setAttribute('data-view', k); }); });
+  function viewOf(h) { h = (h || '').replace('#', ''); if (!h || h === 'top') return 'home'; if (cases.indexOf(h) >= 0) return 'work'; return V[h] ? h : null; }
+  function go(v, keepScroll) {
+    if (!v) return;
+    var changed = v !== cur; cur = v;
+    Object.keys(V).forEach(function (k) { V[k].forEach(function (el) { if (!el) return; el.hidden = k !== v; el.classList.toggle('vin', k === v && changed); }); });
+    [].forEach.call(document.querySelectorAll('.dock a'), function (a) { if (viewOf(a.getAttribute('href')) === v) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (changed && !keepScroll) { try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); } }
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a) return;
+    var h = a.getAttribute('href'), v = viewOf(h); if (!v) return;
+    e.preventDefault();
+    try { history.pushState(null, '', h === '#top' ? location.pathname + location.search : h); } catch (err) {}
+    if (cases.indexOf(h.slice(1)) >= 0) { var t = q('.tab[data-target="' + h.slice(1) + '"]'); if (t) t.click(); try { history.replaceState(null, '', h); } catch (err) {} }
+    go(v);
+  });
+  function fromHash() { go(viewOf(location.hash) || 'home'); }
+  window.addEventListener('hashchange', fromHash); window.addEventListener('popstate', fromHash);
+  fromHash();
 })();
 </script>
 <script>
