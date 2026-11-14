@@ -444,6 +444,16 @@ details.deep > summary:hover { box-shadow: 0 0 18px 2px rgba(205,220,255,.45); }
   .js .contact { margin-top: 26px; padding: 40px 20px 34px; border-radius: 26px; }
   .contact .ways { flex-direction: column; align-items: center; }
 }
+
+/* background music toggle */
+#music { position: fixed; right: 16px; bottom: 16px; z-index: 30; display: inline-flex; align-items: center; gap: 9px; font: inherit; font-weight: 700; font-size: 14px; color: #fff; cursor: pointer;
+  background: rgba(6,10,70,.72); border: 1.5px solid rgba(255,255,255,.5); border-radius: 999px; padding: 9px 16px 9px 13px; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); transition: background .15s, transform .15s; }
+#music:hover { transform: translateY(-2px); background: rgba(40,60,190,.85); }
+#music[aria-pressed="true"] { background: #fff; color: var(--navy); border-color: #fff; box-shadow: 0 0 18px 3px rgba(205,220,255,.5); }
+.eq { display: inline-flex; align-items: flex-end; gap: 2.5px; height: 14px; }
+.eq i { width: 3px; height: 4px; border-radius: 2px; background: currentColor; }
+#music[aria-pressed="true"] .eq i { animation: eq .9s ease-in-out infinite; } #music[aria-pressed="true"] .eq i:nth-child(2) { animation-delay: -.3s; } #music[aria-pressed="true"] .eq i:nth-child(3) { animation-delay: -.6s; }
+@keyframes eq { 0%, 100% { height: 4px; } 50% { height: 14px; } }
 </style>
 </head>
 <body>
@@ -1024,6 +1034,7 @@ LIMIT 15;</code></pre>
   <footer><p>Coursework projects from the Statistics program at Universitas Indonesia. Figures and numbers come from the project reports and notebooks. Group work is credited by name in each case study, and each one states which part I did.</p></footer>
 </div>
 
+<button id="music" type="button" aria-pressed="false"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="mt">Music off</span></button>
 <div id="mag" aria-hidden="true"></div>
 <div id="lb" role="dialog" aria-modal="true" aria-label="Enlarged figure"><button class="btn ghost" type="button" id="lbx">Close</button><img alt=""></div>
 
@@ -1241,6 +1252,70 @@ LIMIT 15;</code></pre>
   }); });
   var gin = document.getElementById('gin'), last = 0;
   if (gin) gin.addEventListener('input', function () { var n = Date.now(); if (n - last > 70) { last = n; tone(300 + gin.value * 6, 0, 0.04, 'sine', 0.02); } });
+})();
+</script>
+<script>
+/* background music: an original lo-fi loop generated in the browser (no audio file, nothing licensed) */
+(function () {
+  var AC = window.AudioContext || window.webkitAudioContext, btn = document.getElementById('music');
+  if (!btn) return; if (!AC) { btn.hidden = true; return; }
+  var ctx, master, bus, noiseBuf, timer = null, playing = false, want = true, step = 0, nextT = 0;
+  try { if (localStorage.getItem('music') === 'off') want = false; } catch (e) {}
+  var BPM = 74, S8 = 60 / BPM / 2;                      /* length of an eighth note */
+  var mid = function (m) { return 440 * Math.pow(2, (m - 69) / 12); };
+  var CH = [[50, 57, 60, 64, 65], [43, 53, 59, 64, 69], [48, 55, 59, 62, 64], [45, 55, 60, 64, 67]];   /* Dm9, G13, Cmaj9, Am7 */
+  var MEL = [72, 74, 76, 79, 81, 84, 79, 76];
+  function label() { btn.setAttribute('aria-pressed', playing ? 'true' : 'false'); btn.querySelector('.mt').textContent = playing ? 'Music on' : 'Music off'; }
+  function setup() {
+    ctx = new AC();
+    master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
+    bus = ctx.createBiquadFilter(); bus.type = 'lowpass'; bus.frequency.value = 2100; bus.Q.value = 0.6; bus.connect(master);
+    var n = ctx.sampleRate * 2; noiseBuf = ctx.createBuffer(1, n, ctx.sampleRate); var d = noiseBuf.getChannelData(0);
+    for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    /* vinyl crackle */
+    var cb = ctx.createBuffer(1, n, ctx.sampleRate), c = cb.getChannelData(0);
+    for (i = 0; i < n; i++) c[i] = (Math.random() * 2 - 1) * 0.012 + (Math.random() < 0.0007 ? (Math.random() * 2 - 1) * 0.5 : 0);
+    var cs = ctx.createBufferSource(); cs.buffer = cb; cs.loop = true; var cg = ctx.createGain(); cg.gain.value = 0.35;
+    var cf = ctx.createBiquadFilter(); cf.type = 'bandpass'; cf.frequency.value = 3200; cf.Q.value = 0.5; cs.connect(cf); cf.connect(cg); cg.connect(master); cs.start();
+  }
+  function note(f, t, dur, vol, type, det) {
+    var o = ctx.createOscillator(), g = ctx.createGain(); o.type = type || 'triangle'; o.frequency.value = f; o.detune.value = det || 0;
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.03); g.gain.exponentialRampToValueAtTime(vol * 0.35, t + dur * 0.5); g.gain.linearRampToValueAtTime(0, t + dur);
+    o.connect(g); g.connect(bus); o.start(t); o.stop(t + dur + 0.05);
+  }
+  function kick(t) { var o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.setValueAtTime(125, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.16);
+    g.gain.setValueAtTime(0.5, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.24); o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.26); }
+  function hit(t, freq, type, dur, vol) { var s = ctx.createBufferSource(); s.buffer = noiseBuf; var f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; var g = ctx.createGain();
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + dur); s.connect(f); f.connect(g); g.connect(master); s.start(t, Math.random()); s.stop(t + dur + 0.02); }
+  function schedule() {
+    while (nextT < ctx.currentTime + 0.35) {
+      var i = step % 8, bar = Math.floor(step / 8) % 4, t = nextT + (i % 2 ? S8 * 0.16 : 0), ch = CH[bar], wob = Math.sin(step * 0.37) * 7;
+      if (i === 0) { ch.slice(1).forEach(function (m, k) { note(mid(m), t + k * 0.022, S8 * 7.6, 0.05, 'triangle', wob); note(mid(m), t + k * 0.022, S8 * 7.6, 0.022, 'sine', wob + 6); }); }
+      if (i === 0 || i === 5) note(mid(ch[0] - 12), t, S8 * (i ? 2.6 : 4.4), 0.2, 'sine');
+      if (i === 0 || i === 4 || (i === 7 && bar % 2)) kick(t);
+      if (i === 2 || i === 6) hit(t, 1700, 'bandpass', 0.16, 0.2);
+      hit(t, 7500, 'highpass', 0.045, i % 2 ? 0.035 : 0.06);
+      if (i % 2 === 0 && Math.random() < 0.34) note(mid(MEL[Math.floor(Math.random() * MEL.length)]), t, S8 * 2.4, 0.045, 'sine', wob);
+      nextT += S8; step++;
+    }
+  }
+  function start() {
+    if (playing) return;
+    try { if (!ctx) setup(); if (ctx.state !== 'running') ctx.resume(); } catch (e) { return; }
+    playing = true; nextT = ctx.currentTime + 0.12; step = 0; schedule(); timer = setInterval(schedule, 110);
+    master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setValueAtTime(master.gain.value, ctx.currentTime); master.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 1.6); label();
+  }
+  function stop() {
+    if (!playing) return; playing = false; clearInterval(timer);
+    master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setValueAtTime(master.gain.value, ctx.currentTime); master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
+    setTimeout(function () { if (!playing && ctx.suspend) ctx.suspend(); }, 650); label();
+  }
+  btn.addEventListener('click', function (e) { e.stopPropagation(); want = !playing; try { localStorage.setItem('music', want ? 'on' : 'off'); } catch (err) {} if (want) start(); else stop(); });
+  /* browsers only allow audio after a first interaction, so the music starts with the visitor's first click or key press */
+  function first(e) { if (e.target && e.target.closest && e.target.closest('#music')) return; document.removeEventListener('click', first, true); document.removeEventListener('keydown', first, true); if (want) start(); }
+  document.addEventListener('click', first, true); document.addEventListener('keydown', first, true);
+  document.addEventListener('visibilitychange', function () { if (!ctx) return; if (document.hidden) { if (playing) { clearInterval(timer); ctx.suspend(); } } else if (playing) { ctx.resume(); nextT = ctx.currentTime + 0.12; timer = setInterval(schedule, 110); } });
+  label();
 })();
 </script>
 </body>
