@@ -391,6 +391,10 @@ footer p { max-width: 76ch; margin: 0 auto; }
 .gl { left: -74px; } .gr { right: -74px; }
 .g1 { top: 90px; animation-delay: -1s; } .g2 { top: 36%; animation-delay: -3s; } .g3 { top: 62%; animation-delay: -4.5s; } .g4 { top: 86%; animation-delay: -2s; }
 body { overflow-x: clip; }
+
+/* sound toggle */
+.dock button { font: inherit; font-weight: 600; font-size: 13.5px; color: #fff; background: rgba(255,255,255,.12); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; margin-left: 4px; }
+.dock button[aria-pressed="false"] { opacity: .6; }
 </style>
 </head>
 <body>
@@ -401,7 +405,7 @@ body { overflow-x: clip; }
   <a href="#more">More projects</a>
   <a href="#experience">Experience</a>
   <a href="#contact">Contact</a>
-</nav></div>
+<button id="snd" type="button" aria-pressed="true" title="Sound effects">Sound on</button></nav></div>
 
 <div class="wrap">
   <header class="hero" id="top">
@@ -1087,6 +1091,53 @@ LIMIT 15;</code></pre>
     var done = function (ok) { cp.textContent = ok ? 'Copied!' : 'Email is shown below'; setTimeout(function () { cp.textContent = 'Copy my email'; }, 1800); };
     try { navigator.clipboard.writeText('andreafeliaa@gmail.com').then(function () { done(true); }, function () { done(false); }); } catch (e) { done(false); }
   });
+})();
+</script>
+<script>
+/* small synthesized sound effects (Web Audio, no files). Toggle in the top bar. */
+(function () {
+  var AC = window.AudioContext || window.webkitAudioContext, btn = document.getElementById('snd');
+  if (!AC || !btn) { if (btn) btn.hidden = true; return; }
+  var ctx = null, on = true;
+  try { if (localStorage.getItem('snd') === 'off') on = false; } catch (e) {}
+  function label() { btn.setAttribute('aria-pressed', on ? 'true' : 'false'); btn.textContent = on ? 'Sound on' : 'Sound off'; }
+  label();
+  function tone(f0, f1, dur, type, vol, delay) {
+    if (!on) return;
+    try {
+      if (!ctx) ctx = new AC(); if (ctx.state === 'suspended') ctx.resume();
+      var t = ctx.currentTime + (delay || 0), o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = type || 'sine'; o.frequency.setValueAtTime(f0, t); if (f1) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.05, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + dur + 0.02);
+    } catch (e) {}
+  }
+  var S = {
+    tick:   function () { tone(720, 980, 0.07, 'sine', 0.045); },
+    soft:   function () { tone(420, 520, 0.09, 'sine', 0.04); },
+    folder: function () { tone(300, 560, 0.12, 'triangle', 0.05); tone(840, 0, 0.06, 'sine', 0.02, 0.09); },
+    open:   function () { tone(380, 760, 0.16, 'sine', 0.04); },
+    close:  function () { tone(700, 360, 0.14, 'sine', 0.035); },
+    win:    function () { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, 0, 0.22, 'sine', 0.05, i * 0.09); }); },
+    near:   function () { tone(523, 0, 0.18, 'sine', 0.05); tone(659, 0, 0.24, 'sine', 0.05, 0.11); },
+    miss:   function () { tone(392, 0, 0.18, 'sine', 0.045); tone(311, 0, 0.26, 'sine', 0.045, 0.12); }
+  };
+  btn.addEventListener('click', function () { on = !on; label(); try { localStorage.setItem('snd', on ? 'on' : 'off'); } catch (e) {} if (on) S.near(); });
+  document.addEventListener('click', function (e) {
+    var t = e.target; if (!t.closest || t.closest('#snd')) return;
+    if (t.closest('#gbtn')) { setTimeout(function () {
+        var r = (document.getElementById('gres') || {}).textContent || '';
+        if (/^Spot on/.test(r)) S.win(); else if (/^Close|^Not bad/.test(r)) S.near(); else if (/^Surprise/.test(r)) S.miss(); else S.soft();
+      }, 30); return; }
+    if (t.closest('.file')) return S.folder();
+    if (t.closest('#lb')) return S.close();
+    if (t.closest('img.zoom')) return S.open();
+    if (t.closest('summary')) { var d = t.closest('details'); return d && d.open ? S.close() : S.open(); }
+    if (t.closest('.tab, .chipb, .fact')) return S.tick();
+    if (t.closest('a, button')) return S.soft();
+  }, true);
+  var gin = document.getElementById('gin'), last = 0;
+  if (gin) gin.addEventListener('input', function () { var n = Date.now(); if (n - last > 70) { last = n; tone(300 + gin.value * 6, 0, 0.04, 'sine', 0.02); } });
 })();
 </script>
 </body>
