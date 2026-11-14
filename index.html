@@ -395,6 +395,16 @@ body { overflow-x: clip; }
 /* sound toggle */
 .dock button { font: inherit; font-weight: 600; font-size: 13.5px; color: #fff; background: rgba(255,255,255,.12); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; margin-left: 4px; }
 .dock button[aria-pressed="false"] { opacity: .6; }
+
+/* what-I-can-do cards (replace the number tiles) */
+.kpi.skill { text-decoration: none; color: #fff; gap: 8px; justify-content: flex-start; transition: transform .2s, background .2s; }
+.kpi.skill:hover, .kpi.skill:focus-visible { transform: translateY(-5px); background: var(--glass2); }
+.kpi.skill svg { width: 34px; height: 34px; fill: none; stroke: var(--c); stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+.kpi.skill b { font-size: 19px; line-height: 1.2; letter-spacing: -.02em; color: var(--c); }
+.kpi.skill span { font-size: 14.5px; color: #e4eaff; flex: 1; }
+.kpi.skill em { font-style: normal; font-weight: 700; font-size: 13.5px; color: #fff; } .kpi.skill em i { font-style: normal; display: inline-block; transition: transform .15s; }
+.kpi.skill:hover em i { transform: translateX(4px); }
+.skill.n1 { --c: var(--pink); } .skill.n2 { --c: var(--teal); } .skill.n3 { --c: var(--butter); } .skill.n4 { --c: var(--sky); }
 </style>
 </head>
 <body>
@@ -437,11 +447,11 @@ body { overflow-x: clip; }
     <a class="file fd" href="#experience"><span class="folder"><span class="back"></span><span class="sheet s1"><i></i><i></i><i></i></span><span class="sheet s2"><i></i><i></i><i></i></span><span class="front"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="16" width="36" height="24" rx="4"/><path d="M18 16v-5h12v5M6 27h36M24 25v4"/></svg></span></span><span class="ft"><small>04</small><b>Experience</b><em>Roles and skills</em></span></a>
   </nav>
 
-  <section class="kpis" aria-label="At a glance">
-    <div class="kpi n1"><b data-count="10">10</b><span>data projects on this page</span></div>
-    <div class="kpi n2"><b data-count="25">25</b><span>university students I support as an assistant lecturer</span></div>
-    <div class="kpi n3"><b data-count="4">4</b><span>leadership roles in student organizations</span></div>
-    <div class="kpi n4"><b data-count="2">2</b><span>junior high students I have taught mathematics since my first semester</span></div>
+  <section class="kpis" aria-label="What I can do">
+    <a class="kpi skill n1" href="#sociolla"><svg viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="11" rx="15" ry="6"/><path d="M9 11v26c0 3.3 6.7 6 15 6s15-2.7 15-6V11M9 24c0 3.3 6.7 6 15 6s15-2.7 15-6"/></svg><b>Get the data right</b><span>Built a SQL database for 7,636 products and answered 13 business questions with queries.</span><em>See the database <i>→</i></em></a>
+    <a class="kpi skill n2" href="#energy"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 6v36h36"/><path d="M11 33 20 24l7 5 13-16"/></svg><b>Model and forecast</b><span>Forecast daily electricity demand from 2,629 days of data with SARIMA–GARCH.</span><em>See the forecast <i>→</i></em></a>
+    <a class="kpi skill n3" href="#gizi"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="8" width="36" height="26" rx="4"/><path d="M14 27v-6M22 27V15M30 27v-9M18 42h12M24 34v8"/></svg><b>Explain it clearly</b><span>Turn analysis into infographics, and teach statistics to 25 students as an assistant lecturer.</span><em>See an infographic <i>→</i></em></a>
+    <a class="kpi skill n4" href="#experience"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="12" r="6"/><circle cx="9" cy="20" r="4.5"/><circle cx="39" cy="20" r="4.5"/><path d="M12 42c1-9 6-13 12-13s11 4 12 13M2 36c.5-5 3-8 7-8M46 36c-.5-5-3-8-7-8"/></svg><b>Lead a team</b><span>Four leadership roles in student organizations, from creative media to research.</span><em>See my experience <i>→</i></em></a>
   </section>
 
   <section class="sec about" id="about">
