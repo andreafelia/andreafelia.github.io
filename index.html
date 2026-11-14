@@ -426,6 +426,24 @@ body { overflow-x: clip; }
   .dock nav::-webkit-scrollbar { display: none; }
   .dock a { flex: none; }
 }
+
+/* tidy-up: soft round glows that are never clipped, balanced contact card, full-height page */
+body { min-height: 100vh; }
+.dock { padding: 0; }
+.dock nav { padding: 22px 18px; margin: -8px 0 -14px; }
+.dock a, .dock a:hover { box-shadow: none; }
+.dock a[aria-current="page"] { box-shadow: 0 0 18px 3px rgba(205,220,255,.5); }
+.btn:hover { box-shadow: 0 0 20px 2px rgba(205,220,255,.45); }
+.tab[aria-selected="true"] { box-shadow: 0 0 20px 2px rgba(205,220,255,.45); }
+details.deep > summary:hover { box-shadow: 0 0 18px 2px rgba(205,220,255,.45); }
+.js .contact { min-height: 0; margin: 40px auto 34px; max-width: 760px; padding: 48px 28px 40px; }
+.contact .ways .btn { min-width: 190px; justify-content: center; }
+@media (max-width: 760px) {
+  .dock nav { -webkit-mask-image: none; mask-image: none; padding: 22px 16px; scroll-padding: 0 16px; width: 100%; min-width: 0; box-sizing: border-box; }
+  .dock nav::after { content: ""; flex: 0 0 4px; }
+  .js .contact { margin-top: 26px; padding: 40px 20px 34px; border-radius: 26px; }
+  .contact .ways { flex-direction: column; align-items: center; }
+}
 </style>
 </head>
 <body>
@@ -1151,6 +1169,9 @@ LIMIT 15;</code></pre>
   function fromHash() { go(viewOf(location.hash) || 'home'); }
   window.addEventListener('hashchange', fromHash); window.addEventListener('popstate', fromHash);
   fromHash();
+  /* keep the current pill in view once fonts and layout have settled */
+  function recenter() { var a = q('.dock a[aria-current="page"]'); if (!a) return; var n = a.parentNode; if (n.scrollWidth > n.clientWidth) n.scrollLeft = a.offsetLeft - (n.clientWidth - a.offsetWidth) / 2; }
+  window.addEventListener('load', recenter); if (document.fonts && document.fonts.ready) document.fonts.ready.then(recenter);
 })();
 </script>
 <script>
