@@ -476,6 +476,13 @@ details.deep > summary:hover { box-shadow: 0 0 18px 2px rgba(205,220,255,.45); }
   .xp .dot { grid-column: 1; grid-row: 1 / span 2; margin: 3px 0 0; }
   .xp li > div { grid-column: 2; grid-row: 2; }
 }
+
+/* timeline line runs only between dots; navy dots with a white ring */
+.xp::before { content: none; }
+.xp li { position: relative; }
+.xp li:not(:last-child)::before { content: ""; position: absolute; left: 191px; top: 13px; bottom: -13px; width: 2px; background: rgba(255,255,255,.4); }
+.xp .dot { background: var(--navy); border: 3px solid #fff; box-shadow: 0 0 10px 2px rgba(205,220,255,.45); }
+@media (max-width: 640px) { .xp li:not(:last-child)::before { left: 7px; top: 11px; bottom: -11px; } }
 </style>
 </head>
 <body>
