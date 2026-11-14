@@ -405,7 +405,7 @@ body { overflow-x: clip; }
   <a href="#more">More projects</a>
   <a href="#experience">Experience</a>
   <a href="#contact">Contact</a>
-<button id="snd" type="button" aria-pressed="true" title="Sound effects">Sound on</button></nav></div>
+</nav></div>
 
 <div class="wrap">
   <header class="hero" id="top">
@@ -1094,14 +1094,11 @@ LIMIT 15;</code></pre>
 })();
 </script>
 <script>
-/* small synthesized sound effects (Web Audio, no files). Toggle in the top bar. */
+/* small synthesized sound effects (Web Audio, no files) */
 (function () {
-  var AC = window.AudioContext || window.webkitAudioContext, btn = document.getElementById('snd');
-  if (!AC || !btn) { if (btn) btn.hidden = true; return; }
+  var AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return;
   var ctx = null, on = true;
-  try { if (localStorage.getItem('snd') === 'off') on = false; } catch (e) {}
-  function label() { btn.setAttribute('aria-pressed', on ? 'true' : 'false'); btn.textContent = on ? 'Sound on' : 'Sound off'; }
-  label();
   function play(f0, f1, dur, type, vol, delay) {
     var t = ctx.currentTime + 0.02 + (delay || 0), o = ctx.createOscillator(), g = ctx.createGain(), v = Math.min(0.5, (vol || 0.05) * 4);
     o.type = type || 'sine'; o.frequency.setValueAtTime(f0, t); if (f1) o.frequency.linearRampToValueAtTime(f1, t + dur);
@@ -1128,9 +1125,8 @@ LIMIT 15;</code></pre>
     near:   function () { tone(523, 0, 0.18, 'sine', 0.05); tone(659, 0, 0.24, 'sine', 0.05, 0.11); },
     miss:   function () { tone(392, 0, 0.18, 'sine', 0.045); tone(311, 0, 0.26, 'sine', 0.045, 0.12); }
   };
-  btn.addEventListener('click', function () { on = !on; label(); try { localStorage.setItem('snd', on ? 'on' : 'off'); } catch (e) {} if (on) S.near(); });
   document.addEventListener('click', function (e) {
-    var t = e.target; if (!t.closest || t.closest('#snd')) return;
+    var t = e.target; if (!t.closest) return;
     if (t.closest('#gbtn')) { setTimeout(function () {
         var r = (document.getElementById('gres') || {}).textContent || '';
         if (/^Spot on/.test(r)) S.win(); else if (/^Close|^Not bad/.test(r)) S.near(); else if (/^Surprise/.test(r)) S.miss(); else S.soft();
