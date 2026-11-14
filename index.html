@@ -1153,6 +1153,15 @@ LIMIT 15;</code></pre>
     } }
     hovEl = null;
   });
+  /* scrub: while the pointer slides across a folder, soft notes follow its position (each folder has its own range) */
+  var files = [].slice.call(document.querySelectorAll('.file')), SC = [262, 294, 330, 392, 440, 523, 587, 659], scT = 0, scX = 0, scY = 0;
+  files.forEach(function (f, k) { f.addEventListener('mousemove', function (e) {
+    if (!ctx || ctx.state !== 'running') return;
+    var n = Date.now(), d = Math.abs(e.clientX - scX) + Math.abs(e.clientY - scY); if (n - scT < 55 || d < 10) return;
+    scT = n; scX = e.clientX; scY = e.clientY;
+    var r = f.getBoundingClientRect(), i = Math.max(0, Math.min(4, Math.floor((e.clientX - r.left) / r.width * 5)));
+    tone(SC[i + k] * 2, 0, 0.05, 'triangle', 0.012);
+  }); });
   var gin = document.getElementById('gin'), last = 0;
   if (gin) gin.addEventListener('input', function () { var n = Date.now(); if (n - last > 70) { last = n; tone(300 + gin.value * 6, 0, 0.04, 'sine', 0.02); } });
 })();
