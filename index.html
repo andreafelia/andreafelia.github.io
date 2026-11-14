@@ -454,6 +454,28 @@ details.deep > summary:hover { box-shadow: 0 0 18px 2px rgba(205,220,255,.45); }
 .eq i { width: 3px; height: 4px; border-radius: 2px; background: currentColor; }
 #music[aria-pressed="true"] .eq i { animation: eq .9s ease-in-out infinite; } #music[aria-pressed="true"] .eq i:nth-child(2) { animation-delay: -.3s; } #music[aria-pressed="true"] .eq i:nth-child(3) { animation-delay: -.6s; }
 @keyframes eq { 0%, 100% { height: 4px; } 50% { height: 14px; } }
+
+/* experience as a timeline: date, dot on a line, role, organization pill */
+.xp { position: relative; gap: 0; }
+.xp::before { content: ""; position: absolute; left: 191px; top: 12px; bottom: 12px; width: 2px; background: linear-gradient(180deg, var(--teal), rgba(255,255,255,.25)); border-radius: 2px; }
+.xp li { grid-template-columns: 160px 24px 1fr; gap: 0 20px; align-items: start; background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; border-radius: 0; padding: 0 0 30px; }
+.xp li:last-child { padding-bottom: 0; }
+.xp .when { text-align: right; padding-top: 5px; font-size: 13px; white-space: nowrap; }
+.skills { margin-top: 44px; }
+.xp .dot { position: relative; z-index: 1; width: 16px; height: 16px; margin: 5px 4px 0; border-radius: 50%; background: #fff; border: 3px solid var(--teal); box-shadow: 0 0 12px 2px rgba(134,243,227,.6); transition: transform .2s; }
+.xp li:hover .dot { transform: scale(1.35); }
+.xp b { display: block; font-size: 18.5px; line-height: 1.25; }
+.xp .org { display: inline-block; margin-top: 7px; font-size: 13px; font-weight: 700; color: var(--navy); background: var(--c, var(--sky)); border-radius: 999px; padding: 3px 12px; }
+.xp li[data-t~="teach"] { --c: var(--teal); } .xp li[data-t~="lead"] { --c: var(--butter); } .xp li[data-t="design"] { --c: var(--pink); } .xp li[data-t="other"] { --c: var(--sky); }
+.xp p { margin: 8px 0 0; max-width: 62ch; color: #dfe6ff; }
+.xp li.dim { opacity: .22; transform: none; }
+@media (max-width: 640px) {
+  .xp::before { left: 7px; }
+  .xp li { grid-template-columns: 16px 1fr; gap: 0 16px; padding-bottom: 26px; }
+  .xp .when { grid-column: 2; grid-row: 1; text-align: left; padding: 0 0 3px; }
+  .xp .dot { grid-column: 1; grid-row: 1 / span 2; margin: 3px 0 0; }
+  .xp li > div { grid-column: 2; grid-row: 2; }
+}
 </style>
 </head>
 <body>
@@ -1005,13 +1027,13 @@ LIMIT 15;</code></pre>
     </div>
     <div class="xpgrid">
       <ul class="xp">
-        <li data-t="teach"><span class="when">Aug 2026 – now</span><div><b>Assistant Lecturer, Sampling and Survey Design</b><p>Universitas Indonesia. Supporting a theory course on sampling designs.</p></div></li>
-        <li data-t="lead design"><span class="when">Jan 2026 – now</span><div><b>Co-Leader, Creative Media</b><p>Pojok Statistik UI. Coordinating the team behind statistics infographics and videos, and checking each post for statistical accuracy.</p></div></li>
-        <li data-t="design"><span class="when">Jan – May 2026</span><div><b>Member, UI/UX Design</b><p>Google Developer Groups on Campus Universitas Indonesia.</p></div></li>
-        <li data-t="lead design"><span class="when">Nov 2024 – Feb 2026</span><div><b>Deputy Head, Multimedia and Entertainment</b><p>Himpunan Mahasiswa Departemen Matematika FMIPA UI. Started as intern staff, became staff, then deputy head. Ran workflow and quality checks for the division’s content.</p></div></li>
-        <li data-t="lead"><span class="when">Sep – Dec 2025</span><div><b>Co-Leader, Research and Development</b><p>The 13th UI Art War. Designed the event survey, analyzed the responses and reported recommendations to the committee.</p></div></li>
-        <li data-t="lead design"><span class="when">Jun – Nov 2025</span><div><b>Team Lead, Design Division</b><p>LOGIKA UI. Led event design from proposals and Instagram content to merchandise.</p></div></li>
-        <li data-t="other"><span class="when">Dec 2024 – Feb 2025</span><div><b>Staff, Medical Division</b><p>Math League 2025.</p></div></li>
+        <li data-t="teach"><span class="when">Aug 2026 – now</span><i class="dot" aria-hidden="true"></i><div><b>Assistant Lecturer, Sampling and Survey Design</b><span class="org">Universitas Indonesia</span><p>Supporting a theory course on sampling designs.</p></div></li>
+        <li data-t="lead design"><span class="when">Jan 2026 – now</span><i class="dot" aria-hidden="true"></i><div><b>Co-Leader, Creative Media</b><span class="org">Pojok Statistik UI</span><p>Coordinating the team behind statistics infographics and videos, and checking each post for statistical accuracy.</p></div></li>
+        <li data-t="design"><span class="when">Jan – May 2026</span><i class="dot" aria-hidden="true"></i><div><b>Member, UI/UX Design</b><span class="org">Google Developer Groups on Campus Universitas Indonesia</span></div></li>
+        <li data-t="lead design"><span class="when">Nov 2024 – Feb 2026</span><i class="dot" aria-hidden="true"></i><div><b>Deputy Head, Multimedia and Entertainment</b><span class="org">Himpunan Mahasiswa Departemen Matematika FMIPA UI</span><p>Started as intern staff, became staff, then deputy head. Ran workflow and quality checks for the division’s content.</p></div></li>
+        <li data-t="lead"><span class="when">Sep – Dec 2025</span><i class="dot" aria-hidden="true"></i><div><b>Co-Leader, Research and Development</b><span class="org">The 13th UI Art War</span><p>Designed the event survey, analyzed the responses and reported recommendations to the committee.</p></div></li>
+        <li data-t="lead design"><span class="when">Jun – Nov 2025</span><i class="dot" aria-hidden="true"></i><div><b>Team Lead, Design Division</b><span class="org">LOGIKA UI</span><p>Led event design from proposals and Instagram content to merchandise.</p></div></li>
+        <li data-t="other"><span class="when">Dec 2024 – Feb 2025</span><i class="dot" aria-hidden="true"></i><div><b>Staff, Medical Division</b><span class="org">Math League 2025</span></div></li>
       </ul>
     </div>
     <div class="skills">
