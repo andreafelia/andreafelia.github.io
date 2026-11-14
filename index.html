@@ -413,6 +413,19 @@ body { overflow-x: clip; }
 .js .sec, .js .contact { min-height: 62vh; }
 .js .kpis { padding-bottom: 40px; }
 .js .about { padding-top: 150px; }
+
+/* top menu: separate dark-glass pills; the current page turns white */
+.dock { padding: 10px 0 0; }
+.dock nav { background: none; border: 0; padding: 4px 14px; gap: 8px; -webkit-backdrop-filter: none; backdrop-filter: none; border-radius: 0; max-width: 100%; }
+.dock a { background: rgba(6,10,70,.66); border: 1.5px solid rgba(255,255,255,.45); padding: 8px 17px; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 6px 16px rgba(3,6,50,.3); white-space: nowrap; transition: background .15s, transform .15s; }
+.dock a:hover { background: rgba(40,60,190,.8); transform: translateY(-2px); }
+.dock a[aria-current="page"] { background: #fff; color: var(--navy); border-color: #fff; box-shadow: 0 0 22px rgba(190,210,255,.65); }
+@media (max-width: 760px) {
+  .dock nav { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; padding: 4px 16px 10px;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 34px), transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 34px), transparent 100%); }
+  .dock nav::-webkit-scrollbar { display: none; }
+  .dock a { flex: none; }
+}
 </style>
 </head>
 <body>
@@ -1124,7 +1137,7 @@ LIMIT 15;</code></pre>
     if (!v) return;
     var changed = v !== cur; cur = v;
     Object.keys(V).forEach(function (k) { V[k].forEach(function (el) { if (!el) return; el.hidden = k !== v; el.classList.toggle('vin', k === v && changed); }); });
-    [].forEach.call(document.querySelectorAll('.dock a'), function (a) { if (viewOf(a.getAttribute('href')) === v) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    [].forEach.call(document.querySelectorAll('.dock a'), function (a) { if (viewOf(a.getAttribute('href')) === v) { a.setAttribute('aria-current', 'page'); var n = a.parentNode; if (n.scrollWidth > n.clientWidth) n.scrollLeft = a.offsetLeft - (n.clientWidth - a.offsetWidth) / 2; } else a.removeAttribute('aria-current'); });
     if (changed && !keepScroll) { try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); } }
   }
   document.addEventListener('click', function (e) {
