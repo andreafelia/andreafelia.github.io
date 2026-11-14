@@ -1142,6 +1142,17 @@ LIMIT 15;</code></pre>
     if (t.closest('.tab, .chipb, .fact')) return S.tick();
     if (t.closest('a, button')) return S.soft();
   }, true);
+  /* hover: a very soft blip when the pointer enters something interactive (browsers allow it only after the first click or key press) */
+  var HOV = [['.file', 520, 660], ['.tab', 600, 0], ['.chipb, .fact', 760, 0], ['.dock a, .dock button', 680, 0], ['.btn', 560, 620], ['.mcard', 440, 0], ['.kpi', 392, 0], ['.app', 880, 0], ['.lanyard', 330, 392], ['details.deep > summary', 500, 0], ['img.zoom', 940, 0]];
+  var hovEl = null, hovT = 0;
+  document.addEventListener('mouseover', function (e) {
+    var t = e.target; if (!t.closest || !ctx || ctx.state !== 'running') return;
+    for (var i = 0; i < HOV.length; i++) { var el = t.closest(HOV[i][0]); if (el) {
+      var n = Date.now(); if (el === hovEl || n - hovT < 60) return; hovEl = el; hovT = n;
+      return tone(HOV[i][1], HOV[i][2], 0.06, 'sine', 0.014);
+    } }
+    hovEl = null;
+  });
   var gin = document.getElementById('gin'), last = 0;
   if (gin) gin.addEventListener('input', function () { var n = Date.now(); if (n - last > 70) { last = n; tone(300 + gin.value * 6, 0, 0.04, 'sine', 0.02); } });
 })();
