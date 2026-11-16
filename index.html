@@ -1287,13 +1287,13 @@ LIMIT 15;</code></pre>
   function fromHash() { go(viewOf(location.hash) || 'home'); }
   /* swipe (or arrow keys, or the round buttons) to move to the next / previous page */
   function step(n) {
-    var i = ORDER.indexOf(cur) + n; if (i < 0 || i >= ORDER.length) { document.body.classList.remove('bump'); void document.body.offsetWidth; document.body.classList.add('bump'); return; }
+    var i = (ORDER.indexOf(cur) + n + ORDER.length) % ORDER.length;   /* wraps: after Contact comes Home, before Home comes Contact */
     var v = ORDER[i], h = v === 'home' ? location.pathname + location.search : '#' + v;
     try { history.pushState(null, '', h); } catch (e) {}
     dir = n; go(v); pager();
   }
   var pg = document.getElementById('pager');
-  function pager() { if (!pg) return; var i = ORDER.indexOf(cur); pg.querySelector('.pp').disabled = i <= 0; pg.querySelector('.pn').disabled = i >= ORDER.length - 1; pg.querySelector('.pc').textContent = (i + 1) + ' / ' + ORDER.length; }
+  function pager() { if (!pg) return; var i = ORDER.indexOf(cur); pg.querySelector('.pc').textContent = (i + 1) + ' / ' + ORDER.length; }
   if (pg) { pg.querySelector('.pp').addEventListener('click', function () { step(-1); }); pg.querySelector('.pn').addEventListener('click', function () { step(1); }); }
   var sx = 0, sy = 0, st = 0, ok = false;
   function scrollsX(el) { for (; el && el !== document.body; el = el.parentNode) { if (el.nodeType !== 1) continue; if (el.matches('input, .dock nav, #lb, .pixme')) return true; if (el.scrollWidth > el.clientWidth + 4) { var o = getComputedStyle(el).overflowX; if (o === 'auto' || o === 'scroll') return true; } } return false; }
