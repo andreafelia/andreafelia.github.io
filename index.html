@@ -542,6 +542,16 @@ details.deep > summary:hover { box-shadow: 0 0 18px 2px rgba(205,220,255,.45); }
 .js .contact { margin-top: 160px; }
 @media (max-width: 760px) { .js .contact { margin-top: 150px; } }
 @media (prefers-reduced-motion: reduce) { .pixme { animation: none; left: 46%; } }
+
+/* swipe / arrows between pages */
+.js[data-dir="fwd"] [data-view].vin { animation: vinf .38s ease both; }
+.js[data-dir="back"] [data-view].vin { animation: vinb .38s ease both; }
+@keyframes vinf { from { transform: translateX(46px); } } @keyframes vinb { from { transform: translateX(-46px); } }
+body.bump { animation: bump .3s ease; } @keyframes bump { 50% { transform: translateX(-8px); } }
+#pager { position: fixed; left: 16px; bottom: 16px; z-index: 30; display: inline-flex; align-items: center; gap: 4px; background: rgba(6,10,70,.72); border: 1.5px solid rgba(255,255,255,.5); border-radius: 999px; padding: 4px; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+#pager button { width: 34px; height: 34px; border-radius: 50%; border: 0; background: none; color: #fff; font: 700 22px/1 var(--font); cursor: pointer; padding: 0 0 3px; transition: background .15s; }
+#pager button:hover:not(:disabled) { background: rgba(255,255,255,.2); } #pager button:disabled { opacity: .3; cursor: default; }
+#pager .pc { font-family: var(--mono); font-size: 12.5px; color: #fff; min-width: 40px; text-align: center; }
 </style>
 </head>
 <body>
@@ -1123,6 +1133,7 @@ LIMIT 15;</code></pre>
   <footer><p>Coursework projects from the Statistics program at Universitas Indonesia. Figures and numbers come from the project reports and notebooks. Group work is credited by name in each case study, and each one states which part I did.</p></footer>
 </div>
 
+<div id="pager" aria-label="Pages"><button class="pp" type="button" aria-label="Previous page">‹</button><span class="pc">1 / 7</span><button class="pn" type="button" aria-label="Next page">›</button></div>
 <button id="music" type="button" aria-pressed="false"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="mt">Music off</span></button>
 <div id="mag" aria-hidden="true"></div>
 <div id="lb" role="dialog" aria-modal="true" aria-label="Enlarged figure"><button class="btn ghost" type="button" id="lbx">Close</button><img alt=""></div>
@@ -1256,9 +1267,11 @@ LIMIT 15;</code></pre>
   var cases = ['sociolla', 'energy', 'sp500', 'gizi'], cur = null;
   Object.keys(V).forEach(function (k) { V[k].forEach(function (el) { if (el) el.setAttribute('data-view', k); }); });
   function viewOf(h) { h = (h || '').replace('#', ''); if (!h || h === 'top') return 'home'; if (cases.indexOf(h) >= 0) return 'work'; return V[h] ? h : null; }
+  var ORDER = ['home', 'about', 'work', 'more', 'quiz', 'experience', 'contact'], dir = 0;
   function go(v, keepScroll) {
     if (!v) return;
-    var changed = v !== cur; cur = v;
+    var changed = v !== cur; if (changed && !dir && cur) dir = ORDER.indexOf(v) > ORDER.indexOf(cur) ? 1 : -1;
+    document.documentElement.setAttribute('data-dir', dir < 0 ? 'back' : 'fwd'); dir = 0; cur = v;
     Object.keys(V).forEach(function (k) { V[k].forEach(function (el) { if (!el) return; el.hidden = k !== v; el.classList.toggle('vin', k === v && changed); }); });
     [].forEach.call(document.querySelectorAll('.dock a'), function (a) { if (viewOf(a.getAttribute('href')) === v) { a.setAttribute('aria-current', 'page'); var n = a.parentNode; if (n.scrollWidth > n.clientWidth) n.scrollLeft = a.offsetLeft - (n.clientWidth - a.offsetWidth) / 2; } else a.removeAttribute('aria-current'); });
     if (changed && !keepScroll) { try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); } }
@@ -1272,6 +1285,25 @@ LIMIT 15;</code></pre>
     go(v);
   });
   function fromHash() { go(viewOf(location.hash) || 'home'); }
+  /* swipe (or arrow keys, or the round buttons) to move to the next / previous page */
+  function step(n) {
+    var i = ORDER.indexOf(cur) + n; if (i < 0 || i >= ORDER.length) { document.body.classList.remove('bump'); void document.body.offsetWidth; document.body.classList.add('bump'); return; }
+    var v = ORDER[i], h = v === 'home' ? location.pathname + location.search : '#' + v;
+    try { history.pushState(null, '', h); } catch (e) {}
+    dir = n; go(v); pager();
+  }
+  var pg = document.getElementById('pager');
+  function pager() { if (!pg) return; var i = ORDER.indexOf(cur); pg.querySelector('.pp').disabled = i <= 0; pg.querySelector('.pn').disabled = i >= ORDER.length - 1; pg.querySelector('.pc').textContent = (i + 1) + ' / ' + ORDER.length; }
+  if (pg) { pg.querySelector('.pp').addEventListener('click', function () { step(-1); }); pg.querySelector('.pn').addEventListener('click', function () { step(1); }); }
+  var sx = 0, sy = 0, st = 0, ok = false;
+  function scrollsX(el) { for (; el && el !== document.body; el = el.parentNode) { if (el.nodeType !== 1) continue; if (el.matches('input, .dock nav, #lb, .pixme')) return true; if (el.scrollWidth > el.clientWidth + 4) { var o = getComputedStyle(el).overflowX; if (o === 'auto' || o === 'scroll') return true; } } return false; }
+  document.addEventListener('touchstart', function (e) { if (e.touches.length !== 1) { ok = false; return; } sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now(); ok = !scrollsX(e.target); }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (!ok) return; var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Math.abs(dx) > 64 && Math.abs(dx) > Math.abs(dy) * 1.8 && Date.now() - st < 700) step(dx < 0 ? 1 : -1);
+  }, { passive: true });
+  document.addEventListener('keydown', function (e) { if (e.target.closest && e.target.closest('input, textarea, select')) return; if (document.getElementById('lb').classList.contains('open')) return; if (e.key === 'ArrowRight') step(1); else if (e.key === 'ArrowLeft') step(-1); });
+  var go0 = go; go = function (v, k) { go0(v, k); pager(); };
   window.addEventListener('hashchange', fromHash); window.addEventListener('popstate', fromHash);
   fromHash();
   /* keep the current pill in view once fonts and layout have settled */
